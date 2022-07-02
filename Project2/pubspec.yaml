@@ -45,6 +45,15 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   get: ^4.6.5
+  intl: ^0.17.0
+  datetime_picker_formfield: ^2.0.0
+  http: ^0.13.4
+  basic_utils: ^4.2.2
+  dotted_border: ^2.0.0+2
+  date_range_form_field: ^1.0.2
+  date_picker_timeline: ^1.2.3
+  provider: ^6.0.3
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

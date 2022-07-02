@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:travelling_app/screens/Home/covid.dart';
+import 'package:travelling_app/screens/Home/setting_screen.dart';
 
-import 'Home/covid.dart';
-import 'Home/home_screen.dart';
-import 'Home/setting_screen.dart';
-
+import 'home_screen.dart';
 
 class Home extends StatefulWidget {
   @override
