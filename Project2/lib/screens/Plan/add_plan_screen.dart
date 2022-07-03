@@ -5,53 +5,46 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:travelling_app/screens/Plan/add_plan_info_screen.dart';
+import 'package:travelling_app/widgets/show_plan_widget.dart';
 
 class AddPlanScreen extends StatefulWidget {
   @override
   State<AddPlanScreen> createState() => _AddPlanScreenState();
-  // late String startDate;
-  // late String title;
-  // late String duration;
-  // AddPlanScreen(
-  //     {required this.startDate, required this.title, required this.duration});
 }
 
 class _AddPlanScreenState extends State<AddPlanScreen> {
   final format = DateFormat('yyyy-MM-dd');
-  late DateTime _selectedDate;
+  // late DateTime _selectedDate = context.read<AddTripProvider>().startDate;
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Consumer<AddTripProvider>(
         builder: (context, addTripProvider, child) {
-      // print('mainTtile is ${addTripProvider.mainTitle}');
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            // Text("startDate: ${addTripProvider.startDate}"),
-            // Text("title: ${addTripProvider.mainTitle}"),
-            // Text("duration: ${addTripProvider.durationDate}"),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.arrow_circle_left_sharp,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                    onPressed: () {
-                      print('back button is pressed');
-                      Get.back();
-                    },
+      return Column(
+        children: [
+          // Text('SelectedDay is ${addTripProvider.selectedDay}'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_circle_left_sharp,
+                    color: Colors.white,
+                    size: 40,
                   ),
-                  Text(format.format(DateTime.now())),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      MaterialButton(
+                  onPressed: () {
+                    print('back button is pressed');
+                    Get.back();
+                  },
+                ),
+                Text(format.format(DateTime.now())),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 80, 0.0),
+                      child: MaterialButton(
                         minWidth: 50.0,
                         height: 50.0,
                         color: Colors.blue,
@@ -62,7 +55,7 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
                               return AddPlanInfoScreen(
-                                selectedDate: _selectedDate,
+                                selectedDate: addTripProvider.selectedDay,
                               );
                             },
                           ));
@@ -72,35 +65,83 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-
-            DatePicker(
-             addTripProvider.startDate,
-              initialSelectedDate: addTripProvider.startDate,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+            child: DatePicker(
+              addTripProvider.startDate,
+              initialSelectedDate: addTripProvider.selectedDay,
               selectionColor: Colors.black,
               selectedTextColor: Colors.white,
-              daysCount: addTripProvider.durationDate+1,
+              daysCount: addTripProvider.durationDate + 1,
               onDateChange: (date) {
                 // New date selected
-                setState(() {
-                  _selectedDate = date;
-                });
+
+                addTripProvider.setSelectDate(date);
+                addTripProvider.getListByDate(date);
               },
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 80, 0.0),
+            child: MaterialButton(
+              minWidth: 30.0,
+              height: 30.0,
+              color: Colors.blue,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              ),
+              onPressed: () {
+                addTripProvider.setEndDate(-1);
+                addTripProvider.setDuration(-1);
+                addTripProvider.removeDays(); 
+               
+              },
+              child: Text(
+                '-',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 80, 0.0),
+            child: MaterialButton(
+              minWidth: 30.0,
+              height: 30.0,
+              color: Colors.blue,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              ),
+              onPressed: () {
+                addTripProvider.setEndDate(1);
+                addTripProvider.setDuration(1);
+                DateTime endDate = addTripProvider.endDate;
+                addTripProvider.addDays(endDate);
 
-            // SingleChildScrollView(
-
-            //   child: Container(
-            //     width: double.maxFinite,
-            //     height: MediaQuery.of(context).size.height,
-            // )
-            // )
-          ],
-        ),
+                // Navigator.push(context, MaterialPageRoute(
+                //   builder: (context) {
+                //     return AddPlanInfoScreen(
+                //       seRlectedDate: addTripProvider.selectedDay,
+                //     );
+                //   },
+                // ));
+              },
+              child: Text(
+                '+',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            ),
+          ),
+          Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 303,
+              child: ShowPlanWidget(lst: addTripProvider.displayListOfTrip))
+        ],
       );
     });
   }

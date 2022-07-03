@@ -108,6 +108,7 @@ class _AddTripWidgetState extends State<AddTripWidget> {
                                       if (myDateRange != null) {
                                         Duration? dure = myDateRange.duration;
                                         startDate = myDateRange.start;
+                                        endDate = myDateRange.end;
 
                                         // print("Start: " + startDate.toString());
                                         // print("Duration: " +
@@ -118,7 +119,7 @@ class _AddTripWidgetState extends State<AddTripWidget> {
                                         context
                                             .read<AddTripProvider>()
                                             .initInstancs(title.text, startDate,
-                                                dure.inDays);
+                                                dure.inDays, endDate);
                                         //     .initInstancs(title.text, startDate,
                                         //         dure.inDays);
                                         // }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:travelling_app/screens/Plan/add_plan_screen.dart';
 import 'package:travelling_app/screens/Plan/search.dart';
 import 'package:provider/provider.dart';
@@ -12,16 +13,14 @@ class PlanScreen extends StatefulWidget {
   State<PlanScreen> createState() => _PlanScreenState();
 }
 
-
 class _PlanScreenState extends State<PlanScreen> {
-  
   int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
     //title: Get.arguments['title'], startDate: Get.arguments['startDate'], duration: Get.arguments['duration']
-    AddPlanScreen(),SearchScreen(),
+    AddPlanScreen(), SearchScreen(),
   ];
-    @override
+  @override
   initState() {
     super.initState();
   }
@@ -34,28 +33,27 @@ class _PlanScreenState extends State<PlanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-    // context.read<AddTripProvider>().ininitListDays();
     // print('title: ${Get.arguments['title']}');
     // print('startDate: ${Get.arguments['startDate']}');
     // print('duration: ${Get.arguments['duration']}');
-  
+    SchedulerBinding.instance.addPostFrameCallback((_) {context.read<AddTripProvider>().ininitListDays();});
+    
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(items: [
+        body: _widgetOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
             BottomNavigationBarItem(
-                  icon: Icon(Icons.assignment_rounded ),
-                  label: 'Plan',
+              icon: Icon(Icons.assignment_rounded),
+              label: 'Plan',
             ),
             BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  label: 'Search',
+              icon: Icon(Icons.search),
+              label: 'Search',
             )
-
-      ],onTap: _onItemTapped, currentIndex: _selectedIndex, //RxInt,
-            selectedItemColor: Colors.blue,)
-
-     
-    );
+          ],
+          onTap: _onItemTapped,
+          currentIndex: _selectedIndex, //RxInt,
+          selectedItemColor: Colors.blue,
+        ));
   }
 }

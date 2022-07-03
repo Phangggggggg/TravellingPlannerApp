@@ -79,7 +79,7 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                         ),
                       ),
                       validator: (text) {
-                        print(text);
+                        // print(text);
                         if (text == null || text.isEmpty) {
                           return 'Enter your To Do';
                         }
@@ -101,13 +101,13 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                           context: context,
                         );
                         if (pickedTime != null) {
-                          print(pickedTime.format(context));
+                          // print(pickedTime.format(context));
                           DateTime parsedTime = DateFormat.jm()
                               .parse(pickedTime.format(context).toString());
-                          print(parsedTime);
+                          // print(parsedTime);
                           String formattedTime =
                               DateFormat('HH:mm:ss').format(parsedTime);
-                          print(formattedTime);
+                          // print(formattedTime);
                           setState(() {
                             startTime.text =
                                 formattedTime; //set the value of text field.
@@ -133,13 +133,13 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                           context: context,
                         );
                         if (pickedTime != null) {
-                          print(pickedTime.format(context));
+                          // print(pickedTime.format(context));
                           DateTime parsedTime = DateFormat.jm()
                               .parse(pickedTime.format(context).toString());
-                          print(parsedTime);
+                          // print(parsedTime);
                           String formattedTime =
                               DateFormat('HH:mm:ss').format(parsedTime);
-                          print(formattedTime);
+                          // print(formattedTime);
                           setState(() {
                             endTime.text =
                                 formattedTime; //set the value of text field.
@@ -173,7 +173,7 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                         ),
                       ),
                       validator: (text) {
-                        print(text);
+                        // print(text);
                         if (text == null || text.isEmpty) {
                           return 'Enter the Discription';
                         }
@@ -203,7 +203,7 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                         ),
                       ),
                       validator: (text) {
-                        print(text);
+                        // print(text);
                         if (text == null || text.isEmpty) {
                           return 'Enter your Expense';
                         }
@@ -233,7 +233,7 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                         ),
                       ),
                       validator: (text) {
-                        print(text);
+                        // print(text);
                         if (text == null || text.isEmpty) {
                           return 'Enter your Category';
                         }
@@ -244,14 +244,10 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                       child: Text('Submit'),
                       onPressed: () {
                         _submitForm();
-
-                        print(
-
-                          "Saved value is: ${todo.text}, ${startTime.text}, ${endTime.text},  ${category.text}, ${expences.text}, ${discription.text}");
+                          // "Saved value is: ${todo.text}, ${startTime.text}, ${endTime.text},  ${category.text}, ${expences.text}, ${discription.text}");
                           Trips trip = Trips(title: todo.text ,description: discription.text ,startTime: startTime.text, endTime: endTime.text,category: category.text, expense: expences.text); 
                           context.read<AddTripProvider>().addTripByDate(widget.selectedDate, trip);
-
-  
+                          Get.toNamed('/plan'); 
                       })
                 ],
               ),
