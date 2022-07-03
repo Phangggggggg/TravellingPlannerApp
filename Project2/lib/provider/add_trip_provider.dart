@@ -6,10 +6,10 @@ import '../models/days.dart';
 import '../models/trips.dart';
 
 class AddTripProvider with ChangeNotifier {
-  late final DateTime startDate;
-  late final int durationDate;
-  late final List<Days> listOfDays = [];
-  late final String mainTitle;
+  late DateTime startDate = DateTime.now();
+  late int durationDate = 1;
+  late List<Days> listOfDays = [];
+  late String mainTitle = "";
 
   void initListPlansByDate(DateTime date) {
     List<Trips> lstTrips = [];

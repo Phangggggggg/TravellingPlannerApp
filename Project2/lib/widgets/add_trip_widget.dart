@@ -101,7 +101,7 @@ class _AddTripWidgetState extends State<AddTripWidget> {
                               children: [
                                 ElevatedButton(
                                     child: Text('Submit'),
-                                    onPressed: () { 
+                                    onPressed: () {
                                       _submitForm();
 
                                       final myDateRange = this.myDateRange;
@@ -109,24 +109,25 @@ class _AddTripWidgetState extends State<AddTripWidget> {
                                         Duration? dure = myDateRange.duration;
                                         startDate = myDateRange.start;
 
-                                        print("Start: " + startDate.toString());
-                                        print("Duration: " +
-                                            dure!.inDays.toString());
+                                        // print("Start: " + startDate.toString());
+                                        // print("Duration: " +
+                                        //     dure!.inDays.toString());
                                         // print(
                                         //     "Saved value is: ${myDateRange.toString()} and  ${title.text}");
-
-                                        // context
-                                        //     .read<AddTripProvider>()
+                                        // if (mounted) {
+                                        context
+                                            .read<AddTripProvider>()
+                                            .initInstancs(title.text, startDate,
+                                                dure.inDays);
                                         //     .initInstancs(title.text, startDate,
                                         //         dure.inDays);
-
-                                 
-                                          Get.toNamed('/plan',  arguments: {
-              "title": title.text,
-              "startDate": startDate.toString(),
-              "duration": dure.inDays.toString()
-            } );
-                             
+                                        // }
+                                        Get.toNamed('/plan');
+                                        // Get.toNamed('/plan', arguments: {
+                                        //   "title": title.text,
+                                        //   "startDate": startDate.toString(),
+                                        //   "duration": dure.inDays.toString()
+                                        // });
                                       }
                                     }),
                                 ElevatedButton(
@@ -146,6 +147,7 @@ class _AddTripWidgetState extends State<AddTripWidget> {
   @override
   Widget build(BuildContext context) {
     var squareWidth = MediaQuery.of(context).size.width / 2 - 12;
+    // final providerCall = Provider.of<AddTripProvider>(context, listen: false);
 
     return InkWell(
       onTap: () {

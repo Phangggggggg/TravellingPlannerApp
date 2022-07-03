@@ -246,11 +246,12 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                         _submitForm();
 
                         print(
-                            "Saved value is: ${todo.text}, ${startTime.text}, ${endTime.text},  ${category.text}, ${expences.text}, ${discription.text}");
-                            Trips trip = Trips(title: todo.text ,description: discription.text ,startTime: startTime.text, endTime: endTime.text,category: category.text, expense: expences.text); 
-                              context.read<AddTripProvider>().addTripByDate(widget.selectedDate, trip);
-                         
-                       
+
+                          "Saved value is: ${todo.text}, ${startTime.text}, ${endTime.text},  ${category.text}, ${expences.text}, ${discription.text}");
+                          Trips trip = Trips(title: todo.text ,description: discription.text ,startTime: startTime.text, endTime: endTime.text,category: category.text, expense: expences.text); 
+                          context.read<AddTripProvider>().addTripByDate(widget.selectedDate, trip);
+
+  
                       })
                 ],
               ),

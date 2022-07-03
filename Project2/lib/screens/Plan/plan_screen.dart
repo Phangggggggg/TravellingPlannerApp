@@ -14,10 +14,12 @@ class PlanScreen extends StatefulWidget {
 
 
 class _PlanScreenState extends State<PlanScreen> {
-   int _selectedIndex = 0;
+  
+  int _selectedIndex = 0;
+
   static List<Widget> _widgetOptions = <Widget>[
-    AddPlanScreen(title: Get.arguments['title'],startDate: Get.arguments['startDate'],duration: Get.arguments['duration']),
-    SearchScreen(),
+    //title: Get.arguments['title'], startDate: Get.arguments['startDate'], duration: Get.arguments['duration']
+    AddPlanScreen(),SearchScreen(),
   ];
     @override
   initState() {
@@ -32,7 +34,8 @@ class _PlanScreenState extends State<PlanScreen> {
 
   @override
   Widget build(BuildContext context) {
-      // context.read<AddTripProvider>().ininitListDays();
+    
+    // context.read<AddTripProvider>().ininitListDays();
     // print('title: ${Get.arguments['title']}');
     // print('startDate: ${Get.arguments['startDate']}');
     // print('duration: ${Get.arguments['duration']}');
