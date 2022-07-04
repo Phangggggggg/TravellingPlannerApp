@@ -5,6 +5,8 @@ import 'package:travelling_app/api/get_covid.dart';
 import 'package:travelling_app/api/get_place.dart';
 import 'package:travelling_app/api/get_restaurant.dart';
 import 'package:travelling_app/api/get_attraction.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class _LoginState extends State<Login> {
   String _message = '';
   String _errText = '';
   bool _autoValidate = false;
+  late FirebaseAuth _auth;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -29,6 +32,17 @@ class _LoginState extends State<Login> {
     usernameController.clear();
     passwordController.clear();
     _message = "";
+  }
+
+  void iniFirebase() async {
+    await Firebase.initializeApp();
+    _auth = FirebaseAuth.instance;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    iniFirebase();
   }
 
   Widget _buildRegisterWith() {
@@ -48,6 +62,18 @@ class _LoginState extends State<Login> {
         ]),
       ),
     );
+  }
+
+  Future signIn() async {
+    try {
+      final newUser = await _auth.signInWithEmailAndPassword(
+          email: usernameController.text.trim(), // need gto use email
+
+          password: passwordController.text.trim());
+      // print(newUser.user!.displayName);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 
   Widget _buildLoginText() {
@@ -163,8 +189,8 @@ class _LoginState extends State<Login> {
                     // atrrac.getAtrract('P03000001');
                     // GetCovid covid = GetCovid();
                     // covid.getCovidDialy();
-
-                    Get.toNamed('/home');
+                    signIn();
+                    Get.toNamed('/register');
 
                     // user
                     //     .authUser(_userName, _passWord)

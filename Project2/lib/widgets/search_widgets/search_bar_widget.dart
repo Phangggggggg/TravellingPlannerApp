@@ -18,12 +18,12 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             decoration: InputDecoration(
               contentPadding: EdgeInsets.all(9),
               filled: true,
-              fillColor: Color.fromARGB(255, 215, 215, 216),
+              fillColor: Color.fromARGB(255, 239, 239, 239),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(40.0),
+                borderRadius: BorderRadius.circular(17.0),
                 borderSide: BorderSide.none,
               ),
-              hintText: "Search",
+              hintText: "Location, country",
               prefixIcon: Icon(Icons.search, color: Color.fromARGB(255, 92, 91, 91)),
               hintStyle: TextStyle(fontSize: 14)
             ),
