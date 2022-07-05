@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:travelling_app/provider/add_trip_provider.dart';
 import 'package:travelling_app/screens/Home/home.dart';
-import 'package:travelling_app/screens/Home/try.dart';
 import 'package:travelling_app/screens/Plan/add_plan_info_screen.dart';
 import 'package:travelling_app/screens/Plan/plan_screen.dart';
 import 'package:travelling_app/screens/Authentication/register.dart';
+import 'package:travelling_app/widgets/search_widgets/province_search_widget.dart';
 import 'screens/Authentication/login.dart';
 import 'package:get/get.dart';
 import 'screens/Authentication/register.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:async';
 
-void main() {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Provider.debugCheckInvalidValueType = null;
+  Provider.debugCheckInvalidValueType = null; 
   runApp(const MyApp());
 }
 
@@ -33,13 +36,13 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            initialRoute: '/',
+            initialRoute: '/login',
             getPages: [
-              GetPage(name: '/', page: () => MyLocation()),
+              // GetPage(name: '/', page: () => ProvinceSearchWidget(province: 'Bangkok',city: 'Taling Chan')),
+              GetPage(name: '/home', page: () => Home()),
               GetPage(name: '/register', page: () => Register()),
               GetPage(name: '/login', page: () => Login()),
-              // GetPage(name: '/register', page: () => Register()),
-              // GetPage(name:  '/plan', page: () =>  PlanScreen())
+              GetPage(name:  '/plan', page: () =>  PlanScreen())
             ]));
   }
 }

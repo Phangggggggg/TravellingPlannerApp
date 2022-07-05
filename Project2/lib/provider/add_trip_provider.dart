@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 
 import '../models/days.dart';
 import '../models/trips.dart';
@@ -13,6 +14,22 @@ class AddTripProvider with ChangeNotifier {
   late String mainTitle = "";
   late List<Trips> displayListOfTrip = [];
   late DateTime selectedDay = DateTime.now();
+
+
+
+  String? stateValue = "";
+  String? cityValue = "";
+
+  void setProvince(String? provice) {
+    stateValue = provice;
+    notifyListeners();
+  }
+
+  void setCity(String? city) {
+    cityValue = city;
+    notifyListeners();
+  }
+
 
   void ininitListDays() {
     if (listOfDays.isEmpty) {

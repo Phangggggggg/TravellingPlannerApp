@@ -5,6 +5,7 @@ class Trips {
   String? endTime;
   String? category;
   String? expense;
+  
 
   Trips(
       {required this.title,

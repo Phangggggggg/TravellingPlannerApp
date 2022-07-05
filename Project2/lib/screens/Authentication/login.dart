@@ -190,7 +190,7 @@ class _LoginState extends State<Login> {
                     // GetCovid covid = GetCovid();
                     // covid.getCovidDialy();
                     signIn();
-                    Get.toNamed('/register');
+                    Get.toNamed('/home');
 
                     // user
                     //     .authUser(_userName, _passWord)
