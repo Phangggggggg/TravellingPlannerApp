@@ -15,14 +15,40 @@ class PlanScreen extends StatefulWidget {
 
 class _PlanScreenState extends State<PlanScreen> {
   int _selectedIndex = 0;
+  var _isInit = true;
+  var _isLoading = false;
 
   static List<Widget> _widgetOptions = <Widget>[
     //title: Get.arguments['title'], startDate: Get.arguments['startDate'], duration: Get.arguments['duration']
     AddPlanScreen(), SearchScreen(),
   ];
+  late String lat;
+  late String long;
   @override
-  initState() {
+  void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    var auth = context.read<AddTripProvider>();
+    lat = auth.userLatitude;
+    long = auth.userLongtitude;
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      Provider.of<AddTripProvider>(context)
+          .getAPlace('Food', '$lat+$long', 'Bangkok', 'RESTAURANT')
+          .then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   void _onItemTapped(int index) {
@@ -33,13 +59,12 @@ class _PlanScreenState extends State<PlanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // print('title: ${Get.arguments['title']}');
-    // print('startDate: ${Get.arguments['startDate']}');
-    // print('duration: ${Get.arguments['duration']}');
-    SchedulerBinding.instance.addPostFrameCallback((_) {context.read<AddTripProvider>().ininitListDays();});
-    
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      context.read<AddTripProvider>().ininitListDays();
+    });
+
     return Scaffold(
-        body: _widgetOptions.elementAt(_selectedIndex),
+        body: _isLoading ? Center(child: CircularProgressIndicator(color: Colors.red),) : _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(

@@ -2,9 +2,11 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
-
+import 'package:http/http.dart' as http;
+import '../api/get_url.dart';
 import '../models/days.dart';
 import '../models/trips.dart';
+import 'dart:convert';
 
 class AddTripProvider with ChangeNotifier {
   late DateTime startDate = DateTime.now();
@@ -14,8 +16,9 @@ class AddTripProvider with ChangeNotifier {
   late String mainTitle = "";
   late List<Trips> displayListOfTrip = [];
   late DateTime selectedDay = DateTime.now();
-
-
+  late String userLatitude = '13.756331';
+  late String userLongtitude = '100.501762';
+  late List<String> _listOfResId = [];
 
   String? stateValue = "";
   String? cityValue = "";
@@ -25,11 +28,60 @@ class AddTripProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getAPlace(String keyword, String geolocation,
+      String provincename, String categorycodes) async {
+    final queryParams = Uri.encodeQueryComponent(jsonEncode({
+      "keyword": keyword,
+      "location": geolocation,
+      "provinceName": provincename,
+      "categorycodes": categorycodes,
+    }));
+    List<String> ans = [];
+    try {
+      var uri1 = 'https://tatapi.tourismthailand.org/tatapi/v5/places/search?' +
+          'keyword=${keyword}' +
+          "&" +
+          'location=${geolocation}' +
+          '&' +
+          'categorycodes=${categorycodes}'
+              '&' +
+          'provinceName=${provincename}';
+      var res = await http.get(
+        Uri.parse(uri1),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'Bearer ${GetUrl.tat}',
+          'Accept-Language': 'en'
+        },
+      );
+      if (res.statusCode != 200) {
+        throw Exception('Failed to fetch get place data');
+      }
+      final data = json.decode(res.body);
+      var listOfResult = data['result'].toList();
+      listOfResult.forEach((model) {
+        _listOfResId.add(model['place_id']);
+      });
+          notifyListeners();
+
+    } catch (e) {
+      print(e);
+    }
+  
+  }
+
+  List<String> get listOfResId => _listOfResId;
+
+  void setUserLatLong(String lat, String long) {
+    userLatitude = lat;
+    userLongtitude = long;
+    notifyListeners();
+  }
+
   void setCity(String? city) {
     cityValue = city;
     notifyListeners();
   }
-
 
   void ininitListDays() {
     if (listOfDays.isEmpty) {
