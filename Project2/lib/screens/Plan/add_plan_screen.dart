@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:travelling_app/screens/Plan/add_plan_info_screen.dart';
 import 'package:travelling_app/widgets/show_plan_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class AddPlanScreen extends StatefulWidget {
   @override
@@ -15,6 +18,18 @@ class AddPlanScreen extends StatefulWidget {
 class _AddPlanScreenState extends State<AddPlanScreen> {
   final format = DateFormat('yyyy-MM-dd');
   // late DateTime _selectedDate = context.read<AddTripProvider>().startDate;
+  late FirebaseFirestore _firestore;
+
+  void iniFirebase() async {
+    await Firebase.initializeApp();
+    _firestore = FirebaseFirestore.instance;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    iniFirebase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +114,7 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
               onPressed: () {
                 addTripProvider.setEndDate(-1);
                 addTripProvider.setDuration(-1);
-                addTripProvider.removeDays(); 
-               
+                addTripProvider.removeDays();
               },
               child: Text(
                 '-',
@@ -137,10 +151,46 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
               ),
             ),
           ),
+          TextButton(
+              onPressed: () {
+                var listDays = [];
+                var days = addTripProvider.listOfDays;
+                for (var i = 0; i < addTripProvider.listOfDays.length; i++) {
+                  var listTrips = [];
+                  var trips = addTripProvider.listOfDays[i].trips!;
+                  for (var j = 0; j < trips.length; j++) {
+                    dynamic tripsObj = {
+                      'category': trips[j].category,
+                      'description': trips[j].description,
+                      'endTime': trips[j].endTime,
+                      'startTime': trips[j].startTime,
+                      'expense': trips[j].expense,
+                      'title': trips[j].title,};
+                    
+                    listTrips.add(tripsObj);;
+                  }
+                  dynamic daysObj = {
+                    'date': days[i].date,
+                    'listOfTrips': listTrips
+                  };
+                  listDays.add(daysObj);
+                }
+                Map<String, dynamic> travelData = {
+                  'endDate': addTripProvider.endDate.toString(),
+                  'startDate': addTripProvider.startDate.toString(),
+                  'mainTitle': addTripProvider.mainTitle,
+                  'userId': '38UzMwptJ3UDTFBjymSgCTYM2lE2',
+                  'listOfDays': listDays
+                };
+
+                _firestore.collection('travelTracker').add(travelData);
+              },
+              child: const Text('Submit')),
+
           Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height - 303,
-              child: ShowPlanWidget(lst: addTripProvider.displayListOfTrip))
+              child: ShowPlanWidget(lst: addTripProvider.displayListOfTrip)),
         ],
       );
     });

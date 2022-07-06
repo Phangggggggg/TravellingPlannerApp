@@ -7,6 +7,9 @@ import 'package:travelling_app/provider/add_trip_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:travelling_app/screens/Plan/plan_screen.dart';
 
+
+
+
 class AddTripWidget extends StatefulWidget {
   const AddTripWidget({Key? key}) : super(key: key);
 
@@ -27,6 +30,7 @@ class _AddTripWidgetState extends State<AddTripWidget> {
       form!.save();
     }
   }
+
 
   Future<void> addTripDialog() async {
     await showDialog<void>(

@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class GetLatLong {
 
-  Future<void> fetchData(String province, String city) async {
+  Future<void> fetchLatLong(String province, String city) async {
     final where = Uri.encodeQueryComponent(jsonEncode({
       "adminName1": province,
       "placeName": city,

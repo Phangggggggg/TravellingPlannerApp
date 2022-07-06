@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:travelling_app/api/get_place.dart';
 import 'package:travelling_app/api/get_latlong.dart';
 
 
@@ -48,7 +47,7 @@ class _ProvinceSearchWidgetState extends State<ProvinceSearchWidget> {
       child: TextButton(
         child: Text('here'),
         onPressed: () {
-          getLatLong.fetchData('Bangkok',"Taling Chan");
+          // getLatLong.fetchData('Bangkok',"Taling Chan");
         },
       ),
     ));

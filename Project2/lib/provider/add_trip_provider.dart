@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:travelling_app/models/place_model.dart';
 import '../api/get_url.dart';
 import '../models/days.dart';
 import '../models/trips.dart';
@@ -18,14 +19,120 @@ class AddTripProvider with ChangeNotifier {
   late DateTime selectedDay = DateTime.now();
   late String userLatitude = '13.756331';
   late String userLongtitude = '100.501762';
+  late int count = 0;
   late List<String> _listOfResId = [];
+  late List<String> _listOfAccomId = [];
+  late List<String> _listOfAttractId = [];
 
-  String? stateValue = "";
+  List<PlaceModel> _listOfResPlaces = [];
+  List<PlaceModel> _listOfAccomPlaces = [];
+  List<PlaceModel> _listOfAttractPlaces = [];
+
+  String? stateValue = "Bangkok";
   String? cityValue = "";
 
   void setProvince(String? provice) {
     stateValue = provice;
     notifyListeners();
+  }
+
+  void resetPlaces() {
+    _listOfResId = [];
+    _listOfAttractId = [];
+    _listOfAccomId = [];
+    _listOfResPlaces = [];
+    _listOfAccomPlaces = [];
+    _listOfAttractPlaces = [];
+  }
+
+  List<PlaceModel> get listOfResPlaces => _listOfResPlaces;
+  List<PlaceModel> get listOfAccomPlaces => _listOfAccomPlaces;
+  List<PlaceModel> get listOfAttractPlaces => _listOfAttractPlaces;
+
+  Future<PlaceModel> getAResAttractAccomDetail(
+      String place_id, String type) async {
+    try {
+      var uri1 =
+          'https://tatapi.tourismthailand.org/tatapi/v5/${type}/${place_id}';
+
+      var res = await http.get(
+        Uri.parse(uri1),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'Bearer ${GetUrl.tat}',
+          'Accept-Language': 'en'
+        },
+      );
+      if (res.statusCode != 200) {
+        throw Exception('Failed to fetch get place data');
+      }
+      final data = json.decode(res.body);
+      var result = data['result'];
+      // print(result["place_id"]);
+      // print(result["place_name"]);
+      // print(result["latitude"]);
+      // print(result["longitude"]);
+      // print(result["sha"]["sha_type_description"]);
+      // print(result["place_information"]["introduction"]);
+      // print(result["place_information"]["detail"]);
+      // print(result["location"]["address"]);
+      // print(result["location"]["sub_district"]);
+      // print(result["location"]["district"]);
+      // print(result["location"]["province"]);
+      // print(result["location"]["province"]);
+
+      // print(result["location"]["postcode"]);
+      // print(result["contact"]);
+      // print(result["contact"]["phones"]);
+      // print(result["thumbnail_url"]);
+      return PlaceModel.fromJson(result);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchLatLong(String province, String city) async {
+    try {
+      final where = Uri.encodeQueryComponent(jsonEncode({
+        "adminName1": province,
+        "placeName": city,
+      }));
+
+      final response = await http.get(
+          Uri.parse(
+              'https://parseapi.back4app.com/classes/TH?limit=10&where=$where'),
+          headers: {
+            "X-Parse-Application-Id":
+                "zS2XAEVEZAkD081UmEECFq22mAjIvX2IlTYaQfai", // This is the fake app's application id
+            "X-Parse-Master-Key":
+                "t6EjVCUOwutr1ruorlXNsH3Rz65g0jiVtbILtAYU" // This is the fake app's readonly master key
+          });
+      if (response.statusCode != 200) {
+        throw Exception('Failed to fetch data');
+      }
+      final data = json.decode(response.body);
+      var result = data['results'];
+      count = data['count'];
+      if (count != 0){
+        userLatitude = result['geoPosition']['latitude'].toString();
+        userLongtitude = result['geoPosition']['latitude'].toString();
+      }
+
+     
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> getAll(String lat, String long) async {
+    resetPlaces();
+    stateValue ??= 'Bangkok';
+    print('here');
+    await getAPlace('Food', '$lat+$long', stateValue!, 'RESTAURANT');
+    await getAPlace('', '$lat+$long', stateValue!, 'ACCOMMODATION');
+    await getAPlace('', '$lat+$long', stateValue!, 'ATTRACTION');
+    notifyListeners();
+    return true;
   }
 
   Future<void> getAPlace(String keyword, String geolocation,
@@ -36,7 +143,7 @@ class AddTripProvider with ChangeNotifier {
       "provinceName": provincename,
       "categorycodes": categorycodes,
     }));
-    List<String> ans = [];
+
     try {
       var uri1 = 'https://tatapi.tourismthailand.org/tatapi/v5/places/search?' +
           'keyword=${keyword}' +
@@ -59,18 +166,46 @@ class AddTripProvider with ChangeNotifier {
       }
       final data = json.decode(res.body);
       var listOfResult = data['result'].toList();
-      listOfResult.forEach((model) {
-        _listOfResId.add(model['place_id']);
-      });
-          notifyListeners();
 
+      if (categorycodes == 'RESTAURANT') {
+        listOfResult.forEach((model) {
+          _listOfResId.add(model['place_id']);
+        });
+        // getAResDetail(_listOfResId[0]).then((value) => print(value));
+        _listOfResId.forEach((element) {
+          getAResAttractAccomDetail(element, 'restaurant').then((value) {
+            _listOfResPlaces.add(value);
+          });
+        });
+      } else if (categorycodes == 'ACCOMMODATION') {
+        listOfResult.forEach((model) {
+          _listOfAccomId.add(model['place_id']);
+        });
+        _listOfAccomId.forEach((element) {
+          getAResAttractAccomDetail(element, 'accommodation').then((value) {
+            _listOfAccomPlaces.add(value);
+          });
+        });
+      } else {
+        listOfResult.forEach((model) {
+          _listOfAttractId.add(model['place_id']);
+        });
+        _listOfAttractId.forEach((element) {
+          getAResAttractAccomDetail(element, 'attraction').then((value) {
+            _listOfAttractPlaces.add(value);
+          });
+        });
+      }
     } catch (e) {
       print(e);
     }
-  
   }
 
   List<String> get listOfResId => _listOfResId;
+
+  List<String> get listOfAccomId => _listOfAccomId;
+
+  List<String> get listOfAttractId => _listOfAttractId;
 
   void setUserLatLong(String lat, String long) {
     userLatitude = lat;
@@ -88,7 +223,6 @@ class AddTripProvider with ChangeNotifier {
       for (var i = 0; i <= durationDate; i++) {
         initListPlansByDate(startDate.add(Duration(days: i)));
       }
-
       notifyListeners();
     }
   }

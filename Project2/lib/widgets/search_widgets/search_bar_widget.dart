@@ -10,8 +10,6 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
-
-
   // String?countryValue = "";
   // String?stateValue = "";
   // String?cityValue = "";
@@ -40,15 +38,13 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               dropdownDecoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white,
-                  border:
-                      Border.all(color: Colors.grey.shade300, width: 1)),
+                  border: Border.all(color: Colors.grey.shade300, width: 1)),
 
               ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
               disabledDropdownDecoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.grey.shade300,
-                  border:
-                      Border.all(color: Colors.grey.shade300, width: 1)),
+                  border: Border.all(color: Colors.grey.shade300, width: 1)),
 
               ///placeholders for dropdown search field
               countrySearchPlaceholder: "Country",
@@ -107,11 +103,22 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
             ///print newly selected country state and city in Text Widget
             TextButton(
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     address =
                         "${addTripProvider.cityValue}, ${addTripProvider.stateValue},";
                   });
+                  if (addTripProvider.count != 0) {
+                     await addTripProvider.fetchLatLong(
+                      addTripProvider.stateValue!, addTripProvider.cityValue!);
+                  await addTripProvider.getAll(addTripProvider.userLatitude,
+                      addTripProvider.userLongtitude);
+                  }else{
+                    
+                      await addTripProvider.getAll('13',
+                      '100');
+                  }
+    
                 },
                 child: Text("Print Data")),
             Text(address)

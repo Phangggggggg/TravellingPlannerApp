@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:travelling_app/api/get_covid.dart';
-import 'package:travelling_app/api/get_place.dart';
 import 'package:travelling_app/api/get_restaurant.dart';
 import 'package:travelling_app/api/get_attraction.dart';
 import 'package:firebase_auth/firebase_auth.dart';
