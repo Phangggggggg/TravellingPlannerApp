@@ -18,9 +18,15 @@ class SuggestionWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return Card(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(lst[index].placeName.toString()),
-                 Text(lst[index].address.toString())
+                Text('Name: '+lst[index].placeName.toString()),
+                 Text('Address: '+lst[index].address.toString()),
+                  Text('District: '+lst[index].district.toString()),
+                  // Text(lst[index].introduction.toString())
+
+
                 // Text(lst[index].title),
                 // Text(lst[index].startTime.toString()),
                 // Text(lst[index].endTime.toString()),

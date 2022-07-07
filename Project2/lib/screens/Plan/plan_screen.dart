@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:travelling_app/colors/colors.dart';
 import 'package:travelling_app/screens/Plan/add_plan_screen.dart';
 import 'package:travelling_app/screens/Plan/search.dart';
 import 'package:provider/provider.dart';
@@ -51,23 +52,27 @@ class _PlanScreenState extends State<PlanScreen> {
     // }
     // print(auth.listOfResPlaces);
 
-    return Scaffold(
-        body:
-             _widgetOptions.elementAt(_selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_rounded),
-              label: 'Plan',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-            )
-          ],
-          onTap: _onItemTapped,
-          currentIndex: _selectedIndex, //RxInt,
-          selectedItemColor: Colors.blue,
-        ));
+    return SafeArea(
+
+      child: Scaffold(
+        backgroundColor: kWheat,
+          body:
+               _widgetOptions.elementAt(_selectedIndex),
+          bottomNavigationBar: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.assignment_rounded),
+                label: 'Plan',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              )
+            ],
+            onTap: _onItemTapped,
+            currentIndex: _selectedIndex, //RxInt,
+            selectedItemColor: kRed,
+          )),
+    );
   }
 }

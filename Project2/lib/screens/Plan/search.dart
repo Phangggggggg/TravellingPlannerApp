@@ -63,7 +63,7 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 StaggeredGridTile.count(
                   crossAxisCellCount: 2,
-                  mainAxisCellCount: 20,
+                  mainAxisCellCount: 10,
                   child: Container(
                     color: Colors.amber,
                     child: Column(

@@ -23,15 +23,65 @@ class ShowPlanWidget extends StatelessWidget {
               return Card(
                 
                 child: Slidable(
-                    child: Column(
-                        children: [
-                        Text(lst[index].title),
-                        Text(lst[index].startTime.toString()),
-                        Text(lst[index].endTime.toString()),
-                        Text(lst[index].description.toString()),
-                        Text(lst[index].expense.toString()),
-                        Text(lst[index].category.toString()),
-                        ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                          children: [
+                          Row(
+                            children: [
+                              Icon(Icons.title, color: Colors.black),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text('Title: '+ lst[index].title),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.time_to_leave, color: Colors.black),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text('Start time:'  + lst[index].startTime.toString()),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                            Icon(Icons.punch_clock, color: Colors.black),
+                            Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text('End Time: '+lst[index].endTime.toString()),
+                            
+                            ),
+                            ]
+                          ),
+                          Row(
+                            children: [
+                            Icon(Icons.description, color: Colors.black),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text('Description: '+lst[index].description.toString()),
+                          ),
+                            ]),
+                            Row(
+                            children: [
+                               Icon(Icons.money, color: Colors.black),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text('Expense: '+lst[index].expense.toString()),
+                            ),
+                            ]
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.category, color: Colors.black),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text('Categoty: '+lst[index].category.toString()),
+                              ),
+                            ]), 
+                          ],
+                      ),
                     ),
                     
                     key: const ValueKey(0),
