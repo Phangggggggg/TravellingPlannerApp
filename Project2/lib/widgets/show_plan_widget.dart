@@ -5,6 +5,7 @@ import 'package:travelling_app/provider/add_trip_provider.dart';
 import 'package:provider/provider.dart';
 
 class ShowPlanWidget extends StatelessWidget {
+  
   List<Trips> lst;
   
   ShowPlanWidget(
@@ -59,17 +60,11 @@ class ShowPlanWidget extends StatelessWidget {
                      
                         
                     ),
-                    ]
-
-                
+                    ]               
                     )
-            
-                
                     ),
                     
                 ); 
             });
       }
-
-  
 }

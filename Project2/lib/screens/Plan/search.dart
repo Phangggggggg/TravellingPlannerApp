@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:travelling_app/api/get_latlong.dart';
 import 'package:travelling_app/widgets/search_widgets/maps_widget.dart';
 import 'package:travelling_app/widgets/search_widgets/province_search_widget.dart';
 import '../../provider/add_trip_provider.dart';

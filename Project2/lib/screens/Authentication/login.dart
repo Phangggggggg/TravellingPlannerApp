@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
-import 'package:travelling_app/api/get_covid.dart';
-import 'package:travelling_app/api/get_restaurant.dart';
-import 'package:travelling_app/api/get_attraction.dart';
+// import 'package:travelling_app/api/get_covid.dart';
+// import 'package:travelling_app/api/get_restaurant.dart';
+// import 'package:travelling_app/api/get_attraction.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:travelling_app/utils/user_shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -67,11 +68,22 @@ class _LoginState extends State<Login> {
     try {
       final newUser = await _auth.signInWithEmailAndPassword(
           email: usernameController.text.trim(), // need gto use email
-
           password: passwordController.text.trim());
+      final currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        String uid = currentUser.uid;
+        String displayName = currentUser.displayName!;
+        String email = currentUser.email!;
+        UserSharedPreference.setUser(uid, displayName, email);
+        print(UserSharedPreference.getUser());
+      }else{
+        throw Exception('Cant log in');
+      }
+    
       // print(newUser.user!.displayName);
     } on FirebaseAuthException catch (e) {
       print(e);
+      rethrow;
     }
   }
 

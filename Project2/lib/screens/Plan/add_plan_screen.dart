@@ -9,6 +9,7 @@ import 'package:travelling_app/widgets/show_plan_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import '/utils/user_shared_preferences.dart';
 
 class AddPlanScreen extends StatefulWidget {
   @override
@@ -165,12 +166,13 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                       'endTime': trips[j].endTime,
                       'startTime': trips[j].startTime,
                       'expense': trips[j].expense,
-                      'title': trips[j].title,};
-                    
-                    listTrips.add(tripsObj);;
+                      'title': trips[j].title,
+                    };
+
+                    listTrips.add(tripsObj);
                   }
                   dynamic daysObj = {
-                    'date': days[i].date,
+                    'date': (days[i].date).toString(),
                     'listOfTrips': listTrips
                   };
                   listDays.add(daysObj);
@@ -179,11 +181,13 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                   'endDate': addTripProvider.endDate.toString(),
                   'startDate': addTripProvider.startDate.toString(),
                   'mainTitle': addTripProvider.mainTitle,
-                  'userId': '38UzMwptJ3UDTFBjymSgCTYM2lE2',
+                  'userId': UserSharedPreference.getUser()[0],
                   'listOfDays': listDays
                 };
 
                 _firestore.collection('travelTracker').add(travelData);
+                addTripProvider.resetDisplayListOfTrip();
+                Get.toNamed('/home');
               },
               child: const Text('Submit')),
 

@@ -36,6 +36,12 @@ class AddTripProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void resetDisplayListOfTrip() {
+    displayListOfTrip = [];
+    listOfDays = []; 
+    notifyListeners();
+  }
+
   void resetPlaces() {
     _listOfResId = [];
     _listOfAttractId = [];
@@ -68,23 +74,6 @@ class AddTripProvider with ChangeNotifier {
       }
       final data = json.decode(res.body);
       var result = data['result'];
-      // print(result["place_id"]);
-      // print(result["place_name"]);
-      // print(result["latitude"]);
-      // print(result["longitude"]);
-      // print(result["sha"]["sha_type_description"]);
-      // print(result["place_information"]["introduction"]);
-      // print(result["place_information"]["detail"]);
-      // print(result["location"]["address"]);
-      // print(result["location"]["sub_district"]);
-      // print(result["location"]["district"]);
-      // print(result["location"]["province"]);
-      // print(result["location"]["province"]);
-
-      // print(result["location"]["postcode"]);
-      // print(result["contact"]);
-      // print(result["contact"]["phones"]);
-      // print(result["thumbnail_url"]);
       return PlaceModel.fromJson(result);
     } catch (e) {
       rethrow;
@@ -113,12 +102,10 @@ class AddTripProvider with ChangeNotifier {
       final data = json.decode(response.body);
       var result = data['results'];
       count = data['count'];
-      if (count != 0){
+      if (count != 0) {
         userLatitude = result['geoPosition']['latitude'].toString();
         userLongtitude = result['geoPosition']['latitude'].toString();
       }
-
-     
     } catch (e) {
       rethrow;
     }

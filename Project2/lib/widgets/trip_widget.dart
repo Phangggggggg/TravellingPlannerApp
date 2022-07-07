@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:travelling_app/models/main_trip_model.dart';
 
 class TripWidget extends StatelessWidget {
-  const TripWidget({Key? key}) : super(key: key);
+
+  String mainTitle; 
+  String startDate;  
+  String endDate; 
+
+  TripWidget({required this.mainTitle, required this.startDate,required this.endDate});
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
-  
       height: 100,
       width: 100,
       color: Colors.red,
-      child: Text('trip'),
+      child: Column(
+        children: [
+          Text(mainTitle),
+          Text(startDate),
+          Text(endDate), 
+        ],
+      ),
+      
     );
   }
 }

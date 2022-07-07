@@ -14,4 +14,6 @@ class Trips {
       this.endTime,
       this.category, 
       this.expense});
+
+  
 }
