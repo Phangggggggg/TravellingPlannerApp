@@ -41,61 +41,85 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           _isLoading = false;
         });
+        print('Future finished successfully i.e. without error');
+      }).catchError((error) {
+        print('Future finished with error');
+      }).whenComplete(() {
+        setState(() {
+          _isLoading = false;
+        });
+        print('Either of then or catchError has run at this point');
       });
     });
   }
 
-  Future getInfo() async {
-    final tripInformations = await _firestore
-        .collection('travelTracker')
-        .where('userId', isEqualTo: UserSharedPreference.getUser()[0])
-        .snapshots()
-        .listen((data) {
-      for (var info in data.docs) {
-        List<dynamic> listOfDays = info['listOfDays'];
-        List<Days> listDays = [];
-        for (var j = 0; j < listOfDays.length; j++) {
-          List<dynamic> listOfTrips = listOfDays[j]['listOfTrips'];
-          List<Trips> listTrips = [];
-          for (var i = 0; i < listOfTrips.length; i++) {
-            Trips trip = new Trips(
-                title: listOfTrips[i]['title'],
-                description: listOfTrips[i]['description'],
-                startTime: listOfTrips[i]['startTime'],
-                endTime: listOfTrips[i]['endTime'],
-                category: listOfTrips[i]['category'],
-                expense: listOfTrips[i]['expense']);
 
-            listTrips.add(trip);
+
+  Future<bool> getInfo() async {
+    try {
+
+  
+      
+      final tripInformations = await _firestore
+          .collection('travelTracker')
+          .where('userId', isEqualTo: UserSharedPreference.getUser()[0])
+          .snapshots()
+          .listen((data) {
+        // print(data.docs[0]);
+        if (data.docs.isNotEmpty) {
+          
+          for (var info in data.docs) {
+            
+            List<dynamic> listOfDays = info['listOfDays'];
+            List<Days> listDays = [];
+          
+            for (var j = 0; j < listOfDays.length; j++) {
+              List<dynamic> listOfTrips = listOfDays[j]['listOfTrips'];
+              List<Trips> listTrips = [];
+              for (var i = 0; i < listOfTrips.length; i++) {
+                Trips trip = new Trips(
+                    title: listOfTrips[i]['title'],
+                    description: listOfTrips[i]['description'],
+                    startTime: listOfTrips[i]['startTime'],
+                    endTime: listOfTrips[i]['endTime'],
+                    category: listOfTrips[i]['category'],
+                    expense: listOfTrips[i]['expense']);
+
+                listTrips.add(trip);
+              }
+              Days eachDay = Days(
+                title: info['mainTitle'],
+                date: DateTime.parse(listOfDays[j]['date']),
+                trips: listTrips,
+              );
+
+              listDays.add(eachDay);
+            }
+            MainTripModel mainTripModel = new MainTripModel(
+                mainTitle: info['mainTitle'],
+                stratDate: info['startDate'],
+                endDate: info['endDate'],
+                userId: info['userId'],
+                docId: info.id,
+                listOfDays: listDays);
+            setState(() {
+              recentTrip.add(mainTripModel);
+            });
           }
-          Days eachDay = Days(
-            title: info['mainTitle'],
-            date: DateTime.parse(listOfDays[j]['date']),
-            trips: listTrips,
-          );
-
-          listDays.add(eachDay);
         }
-        MainTripModel mainTripModel = new MainTripModel(
-            mainTitle: info['mainTitle'],
-            stratDate: info['startDate'],
-            endDate: info['endDate'],
-            userId: info['userId'],
-            listOfDays: listDays);
-        setState(() {
-          recentTrip.add(mainTripModel);
-        });
-      }
-    });
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return _isLoading
         ? Center(
-            child: CircularProgressIndicator(
-            color: Colors.blueAccent,
-          ))
+            child: CircularProgressIndicator(color: Colors.amberAccent),
+          )
         : SingleChildScrollView(
             child: Column(
               children: [
@@ -135,7 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
+
                 Text('Recent Trips'),
+               
                 RecentTripWidget(lst: recentTrip),
               ],
             ),

@@ -109,16 +109,18 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                         "${addTripProvider.cityValue}, ${addTripProvider.stateValue},";
                   });
                   if (addTripProvider.count != 0) {
-                     await addTripProvider.fetchLatLong(
-                      addTripProvider.stateValue!, addTripProvider.cityValue!);
-                  await addTripProvider.getAll(addTripProvider.userLatitude,
-                      addTripProvider.userLongtitude);
-                  }else{
-                    
-                      await addTripProvider.getAll('13',
-                      '100');
+                    await addTripProvider.fetchLatLong(
+                        addTripProvider.stateValue!,
+                        addTripProvider.cityValue!);
+                    await addTripProvider
+                        .getAll(addTripProvider.userLatitude,
+                            addTripProvider.userLongtitude)
+                        .whenComplete(() {
+                      addTripProvider.setIsDoneSearch(true);
+                    });
+                  } else {
+                    await addTripProvider.getAll('13', '100');
                   }
-    
                 },
                 child: Text("Print Data")),
             Text(address)

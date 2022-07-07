@@ -20,9 +20,12 @@ class AddTripProvider with ChangeNotifier {
   late String userLatitude = '13.756331';
   late String userLongtitude = '100.501762';
   late int count = 0;
+  late bool isDoneSearch = false;
   late List<String> _listOfResId = [];
   late List<String> _listOfAccomId = [];
   late List<String> _listOfAttractId = [];
+
+  bool isRebuild = false;
 
   List<PlaceModel> _listOfResPlaces = [];
   List<PlaceModel> _listOfAccomPlaces = [];
@@ -36,9 +39,19 @@ class AddTripProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setIsRebuild(bool val) {
+    isRebuild = val;
+    notifyListeners();
+  }
+
+  void setIsDoneSearch(bool val) {
+    isDoneSearch = val;
+    notifyListeners();
+  }
+
   void resetDisplayListOfTrip() {
     displayListOfTrip = [];
-    listOfDays = []; 
+    listOfDays = [];
     notifyListeners();
   }
 

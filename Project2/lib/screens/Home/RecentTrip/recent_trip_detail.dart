@@ -79,7 +79,7 @@ class _RecentTripDetialState extends State<RecentTripDetial> {
                           initialSelectedDate: widget.selectedDate,
                           selectionColor: Colors.black,
                           selectedTextColor: Colors.white,
-                          daysCount: widget.duration,
+                          daysCount: widget.duration+1,
                           onDateChange: (date) {
                             getListByDate(date);
                           },

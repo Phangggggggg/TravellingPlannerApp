@@ -74,7 +74,7 @@ class _LoginState extends State<Login> {
         String uid = currentUser.uid;
         String displayName = currentUser.displayName!;
         String email = currentUser.email!;
-        UserSharedPreference.setUser(uid, displayName, email);
+        await UserSharedPreference.setUser(uid, displayName, email);
         print(UserSharedPreference.getUser());
       }else{
         throw Exception('Cant log in');
@@ -180,7 +180,7 @@ class _LoginState extends State<Login> {
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   ),
-                  onPressed: () {
+                  onPressed: () async{
                     // if (_formKey.currentState!.validate()) {
                     //   // validate
                     //   var uname = usernameController.text;
@@ -200,7 +200,7 @@ class _LoginState extends State<Login> {
                     // atrrac.getAtrract('P03000001');
                     // GetCovid covid = GetCovid();
                     // covid.getCovidDialy();
-                    signIn();
+                    await signIn();
                     Get.toNamed('/home');
 
                     // user
