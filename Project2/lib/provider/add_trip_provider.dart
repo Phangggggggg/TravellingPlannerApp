@@ -1,7 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:travelling_app/models/place_model.dart';
 import '../api/get_url.dart';

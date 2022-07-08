@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:date_range_form_field/date_range_form_field.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:travelling_app/colors/colors.dart';
 import 'package:travelling_app/provider/add_trip_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:travelling_app/screens/Plan/plan_screen.dart';
@@ -151,7 +152,7 @@ class _AddTripWidgetState extends State<AddTripWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var squareWidth = MediaQuery.of(context).size.width / 2 - 12;
+    var squareWidth = MediaQuery.of(context).size.width / 2 - 40;
     // final providerCall = Provider.of<AddTripProvider>(context, listen: false);
 
     return InkWell(
@@ -162,12 +163,15 @@ class _AddTripWidgetState extends State<AddTripWidget> {
         width: squareWidth,
         height: squareWidth,
         child: DottedBorder(
-          color: Colors.black,
+          radius: Radius.circular(3.0),
+          dashPattern: [10,6],
+          color: kRed,
           strokeWidth: 1,
           child: Center(
             child: Icon(
               Icons.add,
-              size: 10,
+              size: 20,
+              color: kRed,
             ),
           ),
         ),

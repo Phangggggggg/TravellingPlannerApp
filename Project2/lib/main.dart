@@ -13,6 +13,7 @@ import 'screens/Authentication/register.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '/screens/Plan/show_place_detail.dart';
 import 'dart:async';
 
 import 'utils/user_shared_preferences.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
               GetPage(name: '/register', page: () => Register()),
               GetPage(name: '/login', page: () => Login()),
               GetPage(name:  '/plan', page: () =>  PlanScreen()),
+              // GetPage(name:  '/ShowPlaceDetail', page: () =>  ShowPlaceDetail()),
             ]));
   }
 }

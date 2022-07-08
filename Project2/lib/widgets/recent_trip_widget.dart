@@ -20,11 +20,17 @@ class RecentTripWidget extends StatefulWidget {
 }
 
 class _RecentTripWidgetState extends State<RecentTripWidget> {
+  int difference = 0;
   late FirebaseFirestore _firestore;
 
   void iniFirebase() async {
     await Firebase.initializeApp();
     _firestore = FirebaseFirestore.instance;
+  }
+
+  int findDiff(DateTime startDate, DateTime endDate) {
+    var difference = endDate.difference(startDate).inDays;
+    return difference;
   }
 
   @override
@@ -41,7 +47,7 @@ class _RecentTripWidgetState extends State<RecentTripWidget> {
         ? Text('')
         : Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 3,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.lst.length,
@@ -53,7 +59,7 @@ class _RecentTripWidgetState extends State<RecentTripWidget> {
                         DateTime endDate =
                             DateTime.parse(widget.lst[index].endDate);
 
-                        var difference = endDate.difference(startDate).inDays;
+                        int difference = findDiff(startDate, endDate);
 
                         Navigator.push(
                           context,
@@ -68,38 +74,59 @@ class _RecentTripWidgetState extends State<RecentTripWidget> {
                         );
                       },
                       child: Card(
+                        color: Color.fromARGB(255, 219, 196, 125),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         child: Column(
                           children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.arrow_circle_left_sharp,
-                                color: Colors.black,
-                                size: 40,
-                              ),
-                              onPressed: () {
-                                _firestore
-                                    .collection("travelTracker")
-                                    .doc(widget.lst[index].docId)
-                                    .delete()
-                                    .then(
-                                      (doc) => print("Document deleted"),
-                                      onError: (e) =>
-                                          print("Error updating document $e"),
-                                    );
-                                // Provider.of<AddTripProvider>(context)
-                                //     .setIsRebuild(true);
+                            Row(
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                // Spacer(flex: 20),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      10, 0.0, 90, 0.0),
+                                  child: Icon(
+                                    Icons.task,
+                                    color: Colors.black,
+                                    size: 20,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.close_rounded,
+                                    color: Colors.black,
+                                    size: 20,
+                                  ),
+                                  onPressed: () async {
+                                    await _firestore
+                                        .collection("travelTracker")
+                                        .doc(widget.lst[index].docId)
+                                        .delete()
+                                        .then(
+                                          (doc) => print("Document deleted"),
+                                          onError: (e) => print(
+                                              "Error updating document $e"),
+                                        );
+                                    // Provider.of<AddTripProvider>(context)
+                                    //     .setIsRebuild(true);
 
-                                setState(() {
-                                  widget.lst.removeWhere((element) =>
-                                      element.docId == widget.lst[index].docId);
-
-                                });
-                              },
+                                    // setState(() {
+                                    //   widget.lst.removeAt(index);
+                                    // });
+                                    await Navigator.popAndPushNamed(
+                                        context, '/home');
+                                  },
+                                ),
+                              ],
                             ),
                             TripWidget(
                                 mainTitle: widget.lst[index].mainTitle,
                                 startDate: widget.lst[index].stratDate,
-                                endDate: widget.lst[index].endDate),
+                                endDate: widget.lst[index].endDate,
+                                duration: findDiff(DateTime.parse(widget.lst[index].stratDate),DateTime.parse(widget.lst[index].endDate))),
                             SizedBox(
                               width: 5,
                             )

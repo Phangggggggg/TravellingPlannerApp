@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travelling_app/colors/colors.dart';
 import 'package:travelling_app/screens/Home/covid.dart';
 import 'package:travelling_app/screens/Home/setting_screen.dart';
 
@@ -36,6 +37,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          backgroundColor: kWheat,
           body:
            _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: Container(
@@ -61,7 +63,7 @@ class _HomeState extends State<Home> {
                 ),
           ],
             currentIndex: _selectedIndex, //RxInt,
-            selectedItemColor: Colors.blue,
+            selectedItemColor: kRed,
               // unselectedItemColor:kBlue,
             onTap: _onItemTapped)
         ),

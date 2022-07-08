@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+
     super.initState();
     iniFirebase().then((_) {
       setState(() {
@@ -53,13 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
-
   Future<bool> getInfo() async {
     try {
-
-  
-      
       final tripInformations = await _firestore
           .collection('travelTracker')
           .where('userId', isEqualTo: UserSharedPreference.getUser()[0])
@@ -67,12 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
           .listen((data) {
         // print(data.docs[0]);
         if (data.docs.isNotEmpty) {
-          
           for (var info in data.docs) {
-            
             List<dynamic> listOfDays = info['listOfDays'];
             List<Days> listDays = [];
-          
+
             for (var j = 0; j < listOfDays.length; j++) {
               List<dynamic> listOfTrips = listOfDays[j]['listOfTrips'];
               List<Trips> listTrips = [];
@@ -121,36 +115,36 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CircularProgressIndicator(color: Colors.amberAccent),
           )
         : SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15, 15, 15,0 ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('My Trips'),
+                      Text('My Trips',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
                       Icon(
                         Icons.person,
                       ),
                     ],
                   ),
-                ),
-                // TextButton(
-                //     onPressed: () {
-                //       getInfo();
-                //     },
-                //     child: const Text('Submit')),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Ongoing Trip"),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
+                  // TextButton(
+                  //     onPressed: () {
+                  //       getInfo();
+                  //     },
+                  //     child: const Text('Submit')),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text("Ongoing Trip",style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AddTripWidget(),
-                      ),
+                      AddTripWidget(),
                       // Padding(
                       //   padding: const EdgeInsets.all(8.0),
                       //   child: OnGoingTripWidget(
@@ -158,12 +152,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       // )
                     ],
                   ),
-                ),
-
-                Text('Recent Trips'),
-               
-                RecentTripWidget(lst: recentTrip),
-              ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Recent Trips', style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                  // Text('length ${recentTrip.length.toString()}')
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RecentTripWidget(lst: recentTrip),
+                ],
+              ),
             ),
           );
   }

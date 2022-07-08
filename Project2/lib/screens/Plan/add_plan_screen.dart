@@ -154,7 +154,7 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   var listDays = [];
                   var days = addTripProvider.listOfDays;
                   for (var i = 0; i < addTripProvider.listOfDays.length; i++) {
@@ -186,11 +186,11 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                     'listOfDays': listDays
                   };
 
-                  _firestore.collection('travelTracker').add(travelData);
+                  await _firestore.collection('travelTracker').add(travelData);
                   addTripProvider.resetDisplayListOfTrip();
                   Get.toNamed('/home');
                 },
-                child: const Text('Submit', style: TextStyle( color:Colors.white),
+                child: const Text('Trip Completed', style: TextStyle( color:Colors.white),
                 )),
 
             Container(

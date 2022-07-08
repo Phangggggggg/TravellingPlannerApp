@@ -87,7 +87,7 @@ class _RecentTripDetialState extends State<RecentTripDetial> {
                       ),
                       Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height - 303,
+                          height: MediaQuery.of(context).size.height,
                           child: ShowPlanWidget(lst: widget.displayTrips))
                     ],
                   ))
