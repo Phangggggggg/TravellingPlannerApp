@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:travelling_app/colors/colors.dart';
 import 'package:travelling_app/models/covid_model.dart';
 import 'package:travelling_app/provider/covid_provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../widgets/covid_widgets/covid_card_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class CovidScreen extends StatefulWidget {
   @override
@@ -9,6 +14,7 @@ class CovidScreen extends StatefulWidget {
 }
 
 class _CovidScreenState extends State<CovidScreen> {
+  final format = DateFormat('yyyy-MM-dd');
   late CovidModel covidModel;
   var _auth;
   var _isInit = true;
@@ -28,76 +34,222 @@ class _CovidScreenState extends State<CovidScreen> {
         // print(value);
       });
     }
-    ;
 
     _isInit = false;
     super.didChangeDependencies();
+  }
+
+  Widget _buildHelpCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        height: 150,
+        width: double.infinity,
+        child: Stack(
+          alignment: Alignment.bottomLeft,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(
+                // left side padding is 40% of total width
+                left: MediaQuery.of(context).size.width * .4,
+                top: 20,
+                right: 20,
+              ),
+              height: 130,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: kRed,
+                // gradient: LinearGradient(
+                //   colors: [
+                //     Color(0xFF60BE93),
+                //     Color(0xFF1B8D59),
+                //   ],
+                // ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 18, 0, 0),
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: " Dial 1330 for \n Medical Help!\n",
+                          style: TextStyle(fontFamily: 'Aeonik', fontSize: 20)),
+                      TextSpan(
+                        text: " If any symptoms appear",
+                        style: TextStyle(color: kWheat, fontFamily: 'Aeonik'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 170, 0),
+              child: SvgPicture.asset(
+                "lib/assets/logos/4.svg",
+                height: 150.0,
+                fit: BoxFit.scaleDown,
+                width: 150.0,
+              ),
+            ),
+            Positioned(
+              top: 30,
+              right: 10,
+              child: FaIcon(FontAwesomeIcons.virusCovid, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return _isLoading
         ? Center(
-            child: CircularProgressIndicator(color: Colors.blue),
+            child: CircularProgressIndicator(color: kRed),
           )
-        : GridView.count(
-            primary: false,
-            padding: const EdgeInsets.all(20),
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            crossAxisCount: 2,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[100],
-                child: Text('Annoucement Date: ${covidModel.txnDate}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[200],
-                child: Text('new_case: ${covidModel.newCase}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[300],
-                child:  Text('total_case: ${covidModel.totalCase}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[400],
-                child: Text('new_case_excludeabroad: ${covidModel.newCaseExAbroad}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[500],
-                child: Text('total_case_excludeabroad: ${covidModel.totalCaseExAbroad}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[500],
-                child:  Text('new_death : ${covidModel.newCase}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[600],
-                child: Text('total_death: ${covidModel.totalDeath}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[500],
-                child:  Text('new_recovered: ${covidModel.newRecvoered}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[600],
-                child: Text('total_recovered: ${covidModel.totalRecoverd}'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.teal[600],
-                child: Text('update_date: ${covidModel.updateDate}'),
-              ),
-            ],
+        : SingleChildScrollView(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    Text("Thailand Covid Health information",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w800)),
+                  
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 64,
+                  alignment: WrapAlignment.spaceEvenly,
+                  direction: Axis.horizontal,
+                  children: [
+                    CovidCardWidget(
+                      title: 'Date',
+                      iconImage: FontAwesomeIcons.calendarDay,
+                      iconColor: kRed,
+                      info: DateFormat.yMMMd()
+                          .format(DateTime.parse(covidModel.txnDate!)),
+                    ),
+                    CovidCardWidget(
+                      title: 'New Cases',
+                      iconImage: FontAwesomeIcons.calendarPlus,
+                      iconColor: kRed,
+                      info: covidModel.newCase!.toString(),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 64,
+                  alignment: WrapAlignment.spaceEvenly,
+                  direction: Axis.horizontal,
+                  children: [
+                    CovidCardWidget(
+                        title: 'Total Cases',
+                        iconImage: FontAwesomeIcons.briefcaseMedical,
+                        iconColor: kRed,
+                        info: covidModel.totalCase!.toString()),
+                    CovidCardWidget(
+                        title: 'New Cases Inbound',
+                        iconImage: FontAwesomeIcons.arrowRightToCity,
+                        iconColor: kRed,
+                        info: covidModel.newCaseExAbroad!.toString()),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Wrap(
+                  spacing: 10,
+                  alignment: WrapAlignment.spaceEvenly,
+                  direction: Axis.horizontal,
+                  children: [
+                    CovidCardWidget(
+                        title: 'New Recovered',
+                        iconImage: FontAwesomeIcons.virusCovidSlash,
+                        iconColor: kRed,
+                        info: covidModel.newRecvoered!.toString()),
+                    CovidCardWidget(
+                        title: 'New Death',
+                        iconImage: FontAwesomeIcons.personCircleXmark,
+                        iconColor: kRed,
+                        info: covidModel.newCase!.toString()),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Preventions',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w800)),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          PreventionCard(
+                              imgPath: 'lib/assets/logos/washhands.png',
+                              title: 'Wash hands'),
+                          PreventionCard(
+                              imgPath: 'lib/assets/logos/mask.png',
+                              title: 'Wear mask'),
+                          PreventionCard(
+                              imgPath: 'lib/assets/logos/distance.png',
+                              title: 'Social distance'),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                _buildHelpCard(context),
+              ]),
+            ),
           );
+  }
+}
+
+class PreventionCard extends StatelessWidget {
+  final String imgPath;
+  final String title;
+  PreventionCard({required this.imgPath, required this.title});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Image.asset(
+          imgPath,
+          width: 100,
+          height: 100,
+        ),
+        Text(
+          title,
+        )
+      ],
+    );
   }
 }

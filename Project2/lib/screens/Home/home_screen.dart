@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:travelling_app/models/main_trip_model.dart';
 import 'package:travelling_app/utils/user_shared_preferences.dart';
 import 'package:travelling_app/widgets/add_trip_widget.dart';
-import 'package:travelling_app/widgets/on_going_trip_widget.dart';
 import 'package:travelling_app/widgets/recent_trip_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import '/models/days.dart';
 import '/models/trips.dart';
 import '/models/main_trip_model.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-
     super.initState();
     iniFirebase().then((_) {
       setState(() {
@@ -116,16 +115,23 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         : SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 15, 15,0 ),
+              padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('My Trips',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
-                      Icon(
-                        Icons.person,
+                      Text(
+                        'My Trips',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Get.toNamed('/profile');
+                        },
+                        icon: Icon(Icons.person),
                       ),
                     ],
                   ),
@@ -137,8 +143,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text("Ongoing Trip",style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                  Text(
+                    "Ongoing Trip",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 20),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -155,8 +166,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('Recent Trips', style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                  Text(
+                    'Recent Trips',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 20),
+                  ),
                   // Text('length ${recentTrip.length.toString()}')
                   SizedBox(
                     height: 20,
