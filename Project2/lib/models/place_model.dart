@@ -31,11 +31,11 @@ class PlaceModel {
       this.picUrl});
   static PlaceModel fromJson(json) {
     String numbers = "";
-      var phoneJson = json["contact"]["phones"];
-      if (phoneJson != null) {
-        numbers = phoneJson[0].toString();
-      }
-    
+    var phoneJson = json["contact"]["phones"];
+    if (phoneJson != null) {
+      numbers = phoneJson[0].toString();
+    }
+
     PlaceModel placeModel = new PlaceModel(
         placeId: json['place_id'],
         placeName: json["place_name"],
@@ -51,6 +51,25 @@ class PlaceModel {
         postcode: json["location"]["postcode"],
         phones: numbers,
         picUrl: json["thumbnail_url"]);
+    return placeModel;
+  }
+
+  static PlaceModel fromJsonFireBase(json) {
+     PlaceModel placeModel = new PlaceModel(
+        placeId: json['placeId'],
+        placeName: json["placeName"],
+        latitude: json["latitude"],
+        longitude: json["longitude"],
+        shaTypeDescription: json["shaTypeDescription"],
+        introduction: json['introduction'],
+        detial: json['detial'],
+        address: json["address"],
+        subDistrict: json["subDistrict"],
+        district: json["district"],
+        province: json["province"],
+        postcode: json["postcode"],
+        phones: json['phones'],
+        picUrl: json["picUrl"]);
     return placeModel;
   }
 }

@@ -52,10 +52,16 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-              color: Colors.red,
-            ))
+          ? Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+             CircularProgressIndicator(
+                  color: kRed,
+             )
+            ],
+          )
           : StaggeredGrid.count(
               crossAxisCount: 2,
               mainAxisSpacing: 10,
@@ -66,28 +72,31 @@ class _SearchScreenState extends State<SearchScreen> {
                   mainAxisCellCount: 10,
                   child: Container(
                     color:kWheat,
-                    child: Column(
+                    child: Column(    
+                      // SizedBox(height: 10,),
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                    SizedBox(height: 10,),
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Icon(Icons.person),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 10.0, bottom: 10.0),
-                          child: Text('Discover a new places', style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold
-                          ),),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Discover a new places', style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: kBrown,
+                              ),),
+                            ],
+                          ),
                         ),
                         SearchBarWidget(),
                         Display()
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-          
+                    
+                    ),
               ],
             ),
     );

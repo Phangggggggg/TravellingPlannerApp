@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travelling_app/models/main_trip_model.dart';
+import 'package:travelling_app/models/place_model.dart';
 import 'package:travelling_app/utils/user_shared_preferences.dart';
 import 'package:travelling_app/widgets/add_trip_widget.dart';
 import 'package:travelling_app/widgets/recent_trip_widget.dart';
@@ -69,16 +70,29 @@ class _HomeScreenState extends State<HomeScreen> {
             for (var j = 0; j < listOfDays.length; j++) {
               List<dynamic> listOfTrips = listOfDays[j]['listOfTrips'];
               List<Trips> listTrips = [];
-              for (var i = 0; i < listOfTrips.length; i++) {
-                Trips trip = new Trips(
-                    title: listOfTrips[i]['title'],
-                    description: listOfTrips[i]['description'],
-                    startTime: listOfTrips[i]['startTime'],
-                    endTime: listOfTrips[i]['endTime'],
-                    category: listOfTrips[i]['category'],
-                    expense: listOfTrips[i]['expense']);
 
-                listTrips.add(trip);
+              for (var i = 0; i < listOfTrips.length; i++) {
+                if (listOfTrips[j]['placeModel'] == null) {
+                  Trips trip = new Trips(
+                      title: listOfTrips[i]['title'],
+                      description: listOfTrips[i]['description'],
+                      startTime: listOfTrips[i]['startTime'],
+                      endTime: listOfTrips[i]['endTime'],
+                      category: listOfTrips[i]['category'],
+                      expense: listOfTrips[i]['expense']);
+                      listTrips.add(trip);
+                } else {
+                  var pm = listOfTrips[i]['placeModel'];
+                  Trips trip = new Trips(
+                      title: listOfTrips[i]['title'],
+                      description: listOfTrips[i]['description'],
+                      startTime: listOfTrips[i]['startTime'],
+                      endTime: listOfTrips[i]['endTime'],
+                      category: listOfTrips[i]['category'],
+                      expense: listOfTrips[i]['expense'],
+                      placeModel: PlaceModel.fromJsonFireBase(pm));
+                  listTrips.add(trip);
+                }
               }
               Days eachDay = Days(
                 title: info['mainTitle'],

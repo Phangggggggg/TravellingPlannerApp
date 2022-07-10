@@ -8,34 +8,17 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:intl/intl.dart';
+import 'package:travelling_app/models/place_model.dart';
 import '../../provider/add_trip_provider.dart';
 import 'package:travelling_app/models/trips.dart';
 
 class ShowPlaceDetail extends StatefulWidget {
-  String? imgPath;
-  String? placeName;
-  String? shaTypeDescription;
-  String? introduction;
-  String? detial;
-  String? address;
-  String? subDistrict;
-  String? district;
-  String? province;
-  String? postcode;
-  String? phones;
+  bool isShow;
+  PlaceModel placeModel;
 
   ShowPlaceDetail({
-    this.imgPath,
-    this.placeName,
-    this.shaTypeDescription,
-    this.introduction,
-    this.detial,
-    this.address,
-    this.subDistrict,
-    this.district,
-    this.province,
-    this.postcode,
-    this.phones,
+    required this.placeModel,
+    required this.isShow,
   });
 
   @override
@@ -257,7 +240,8 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                                           startTime: startTime.text,
                                           endTime: endTime.text,
                                           category: place,
-                                          expense: expences.text);
+                                          expense: expences.text,
+                                          placeModel: widget.placeModel);
 
                                       context
                                           .read<AddTripProvider>()
@@ -270,14 +254,14 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
-                                            Future.delayed(Duration(seconds: 2),
+                                            Future.delayed(Duration(seconds: 1),
                                                 () {
                                               Navigator.of(context).pop(true);
                                             });
                                             return AlertDialog(
                                               title: const Text('Confirmation'),
-                                              content:
-                                                  const Text('Succesfully add the place into your plan'),
+                                              content: const Text(
+                                                  'Succesfully add the place into your plan'),
                                             );
                                           });
                                     }),
@@ -297,6 +281,22 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
 
   @override
   Widget build(BuildContext context) {
+    
+    print(widget.placeModel.placeId);
+    print(widget.placeModel.address);
+    print(widget.placeModel.introduction);
+    print(widget.placeModel.detial);
+    print(widget.placeModel.district);
+    print(widget.placeModel.latitude);
+    print(widget.placeModel.longitude);
+    print(widget.placeModel.phones);
+    print(widget.placeModel.placeName);
+    print(widget.placeModel.subDistrict);
+    print(widget.placeModel.shaTypeDescription);
+    print(widget.placeModel.province);
+    print(widget.placeModel.picUrl);
+    print(widget.placeModel.postcode); 
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: kWheat,
@@ -310,16 +310,16 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                           bottomLeft: Radius.circular(30.0),
                           bottomRight: Radius.circular(30.0),
                         ),
-                        child:
-                            widget.imgPath!.isEmpty || widget.imgPath! == 'NULL'
-                                ? Image.asset(
-                                    'lib/assets/logos/withbg.png',
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.network(
-                                    widget.imgPath!,
-                                    fit: BoxFit.cover,
-                                  )),
+                        child: widget.placeModel.picUrl!.isEmpty ||
+                                widget.placeModel.picUrl! == 'NULL'
+                            ? Image.asset(
+                                'lib/assets/logos/withbg.png',
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                widget.placeModel.picUrl!,
+                                fit: BoxFit.cover,
+                              )),
                     height: MediaQuery.of(context).size.width - 30,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
@@ -342,10 +342,10 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                         },
                         icon: Icon(Icons.arrow_back),
                         iconSize: 30.0,
-                        color:
-                            widget.imgPath!.isEmpty || widget.imgPath! == 'NULL'
-                                ? kBrown
-                                : Colors.white,
+                        color: widget.placeModel.picUrl!.isEmpty ||
+                                widget.placeModel.picUrl! == 'NULL'
+                            ? kBrown
+                            : Colors.white,
                       )
                     ],
                   ),
@@ -357,11 +357,11 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.district!,
+                        widget.placeModel.district!,
                         maxLines: 2,
                         style: TextStyle(
-                          color: widget.imgPath!.isEmpty ||
-                                  widget.imgPath! == 'NULL'
+                          color: widget.placeModel.picUrl!.isEmpty ||
+                                  widget.placeModel.picUrl! == 'NULL'
                               ? kBrown
                               : Colors.white,
                           fontSize: 32.0,
@@ -374,8 +374,8 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                           Icon(
                             FontAwesomeIcons.locationArrow,
                             size: 15.0,
-                            color: widget.imgPath!.isEmpty ||
-                                    widget.imgPath! == 'NULL'
+                            color: widget.placeModel.picUrl!.isEmpty ||
+                                    widget.placeModel.picUrl! == 'NULL'
                                 ? kRed
                                 : Colors.white,
                           ),
@@ -383,10 +383,10 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                             width: 5.0,
                           ),
                           Text(
-                            widget.province!,
+                            widget.placeModel.province!,
                             style: TextStyle(
-                                color: widget.imgPath!.isEmpty ||
-                                        widget.imgPath! == 'NULL'
+                                color: widget.placeModel.picUrl!.isEmpty ||
+                                        widget.placeModel.picUrl! == 'NULL'
                                     ? kBrown
                                     : Colors.white,
                                 fontSize: 20.0),
@@ -404,27 +404,27 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
               padding: const EdgeInsets.all(8.0),
               child: ListView(
                 children: [
-                  if (widget.placeName!.isNotEmpty) ...[
+                  if (widget.placeModel.placeName!.isNotEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
                       child: Text(
-                        widget.placeName!,
+                        widget.placeModel.placeName!,
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
+                          color: kRed,
+                          fontSize: 25.0,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 1.2,
                         ),
                       ),
                     ),
                   ],
-                  if (widget.shaTypeDescription!.isNotEmpty) ...[
+                  if (widget.placeModel.shaTypeDescription!.isNotEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                       child: Text(
-                        widget.shaTypeDescription!,
+                        widget.placeModel.shaTypeDescription!,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: kBrown,
                           fontSize: 15.0,
                           fontWeight: FontWeight.w300,
                           // letterSpacing: 1.2,
@@ -446,16 +446,16 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                         child: Icon(
                           FontAwesomeIcons.locationDot,
                           size: 15.0,
-                          color: Colors.black,
+                          color: kRed,
                         ),
                       ),
-                      if (widget.district!.isNotEmpty) ...[
+                      if (widget.placeModel.district!.isNotEmpty) ...[
                         Padding(
                           padding: const EdgeInsets.fromLTRB(13, 10, 0.0, 0),
                           child: Text(
-                            widget.district!,
+                            widget.placeModel.district!,
                             style: TextStyle(
-                              color: Colors.black,
+                              color: kBrown,
                               fontSize: 15.0,
                               fontWeight: FontWeight.w300,
                               // letterSpacing: 1.2,
@@ -465,17 +465,17 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                       ],
                     ],
                   ),
-                  if (widget.address!.isNotEmpty) ...[
+                  if (widget.placeModel.address!.isNotEmpty) ...[
                     // Flexible(
                     //   child: Container(
                     Padding(
                       padding: const EdgeInsets.fromLTRB(35, 0, 0.0, 0),
                       child: Text(
-                        widget.address!,
+                        widget.placeModel.address!,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: kBrown,
                           fontSize: 15.0,
                           fontWeight: FontWeight.w300,
                           // letterSpacing: 1.2,
@@ -483,13 +483,13 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                       ),
                     ),
                   ],
-                  if (widget.subDistrict!.isNotEmpty) ...[
+                  if (widget.placeModel.subDistrict!.isNotEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.fromLTRB(35, 0, 0.0, 0),
                       child: Text(
-                        widget.subDistrict!,
+                        widget.placeModel.subDistrict!,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: kBrown,
                           fontSize: 15.0,
                           fontWeight: FontWeight.w300,
                           // letterSpacing: 1.2,
@@ -497,13 +497,13 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                       ),
                     ),
                   ],
-                  if (widget.postcode!.isNotEmpty) ...[
+                  if (widget.placeModel.postcode!.isNotEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.fromLTRB(35, 0, 0.0, 0),
                       child: Text(
-                        widget.postcode!,
+                        widget.placeModel.postcode!,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: kBrown,
                           fontSize: 15.0,
                           fontWeight: FontWeight.w300,
                           // letterSpacing: 1.2,
@@ -511,7 +511,7 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                       ),
                     ),
                   ],
-                  if (widget.phones!.isNotEmpty) ...[
+                  if (widget.placeModel.phones!.isNotEmpty) ...[
                     Row(
                       children: [
                         Padding(
@@ -519,15 +519,15 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                           child: Icon(
                             FontAwesomeIcons.phone,
                             size: 15.0,
-                            color: Colors.black,
+                            color: kRed,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            widget.phones!,
+                            widget.placeModel.phones!,
                             style: TextStyle(
-                              color: Colors.black,
+                              color: kBrown,
                               fontSize: 15.0,
                               fontWeight: FontWeight.w300,
                               // letterSpacing: 1.2,
@@ -539,18 +539,18 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                   ],
                   Divider(
                     color: Colors.grey,
-                    height: 10,
+                    height: 30,
                     thickness: 1,
                     indent: 15,
                     endIndent: 15,
                   ),
-                  if (widget.detial!.isNotEmpty) ...[
+                  if (widget.placeModel.detial!.isNotEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        widget.detial!,
+                        widget.placeModel.detial!,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: kBrown,
                           fontSize: 15.0,
                           fontWeight: FontWeight.w300,
                           // letterSpacing: 1.2,
@@ -563,15 +563,17 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
             )), //expand;
           ],
         ),
-        floatingActionButton: FloatingActionButton.extended(
+    
+        floatingActionButton: widget.isShow ? FloatingActionButton.extended(
           onPressed: () {
-            addTripDialog(widget.placeName!);
+            addTripDialog(widget.placeModel.placeName!);
+
             // Add your onPressed code here!
           },
           label: const Text('Add to Plan'),
-          icon: const Icon(Icons.thumb_up),
-          backgroundColor: Colors.pink,
-        ),
+          icon: const Icon(Icons.add),
+          backgroundColor: kRed,
+        ) : null,
       ), //stack
     );
   }

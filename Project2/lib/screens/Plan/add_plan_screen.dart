@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:travelling_app/colors/colors.dart';
+import 'package:travelling_app/models/place_model.dart';
 import 'package:travelling_app/provider/add_trip_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -53,10 +54,13 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Text('Plan your trip', style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),),
+              child: Text(
+                'Plan your trip',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                ),
+              ),
             ),
             // Text('SelectedDay is ${addTripProvider.selectedDay}'),
             Padding(
@@ -73,8 +77,7 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                         height: 50.0,
                         color: kRed,
                         shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
                         ),
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(
@@ -92,46 +95,45 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                       ),
                     ],
                   ),
- MaterialButton(
-   minWidth: 30.0,
-   height: 30.0,
-   color: Colors.blue,
-   shape: const RoundedRectangleBorder(
-     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-   ),
-   onPressed: () {
-     addTripProvider.setEndDate(1);
-     addTripProvider.setDuration(1);
-     DateTime endDate = addTripProvider.endDate;
-     addTripProvider.addDays(endDate);
-   },
-   child: Text(
-     '+',
-     style: TextStyle(color: Colors.white, fontSize: 15),
-   ),
- ),
-
-                        MaterialButton(
-                          minWidth: 30.0,
-                          height: 30.0,
-                          color: Colors.blue,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          ),
-                          onPressed: () {
-                            addTripProvider.setEndDate(-1);
-                            addTripProvider.setDuration(-1);
-                            addTripProvider.removeDays();
-                          },
-                          child: Text(
-                            '-',
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                        ),
+                  MaterialButton(
+                    minWidth: 30.0,
+                    height: 30.0,
+                    color: Colors.blue,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                    onPressed: () {
+                      addTripProvider.setEndDate(1);
+                      addTripProvider.setDuration(1);
+                      DateTime endDate = addTripProvider.endDate;
+                      addTripProvider.addDays(endDate);
+                    },
+                    child: Text(
+                      '+',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ),
+                  MaterialButton(
+                    minWidth: 30.0,
+                    height: 30.0,
+                    color: Colors.blue,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                    onPressed: () {
+                      addTripProvider.setEndDate(-1);
+                      addTripProvider.setDuration(-1);
+                      addTripProvider.removeDays();
+                    },
+                    child: Text(
+                      '-',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ),
                 ],
               ),
             ),
-              
+
             DatePicker(
               addTripProvider.startDate,
               initialSelectedDate: addTripProvider.selectedDay,
@@ -145,8 +147,7 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                 addTripProvider.getListByDate(date);
               },
             ),
-      
-         
+
             MaterialButton(
                 minWidth: 30.0,
                 height: 30.0,
@@ -161,17 +162,49 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                     var listTrips = [];
                     var trips = addTripProvider.listOfDays[i].trips!;
                     for (var j = 0; j < trips.length; j++) {
-                      dynamic tripsObj = {
-                        'category': trips[j].category,
-                        'description': trips[j].description,
-                        'endTime': trips[j].endTime,
-                        'startTime': trips[j].startTime,
-                        'expense': trips[j].expense,
-                        'title': trips[j].title,
-                      };
-
-                      listTrips.add(tripsObj);
+                      if (trips[j].placeModel == null) {
+                       
+                        dynamic tripsObj = {
+                          'category': trips[j].category,
+                          'description': trips[j].description,
+                          'endTime': trips[j].endTime,
+                          'startTime': trips[j].startTime,
+                          'expense': trips[j].expense,
+                          'title': trips[j].title,
+                        };
+                        listTrips.add(tripsObj);
+                      } else {
+                 
+                        PlaceModel placeModel = trips[j].placeModel!;
+                        dynamic tripsObj = {
+                          'category': trips[j].category,
+                          'description': trips[j].description,
+                          'endTime': trips[j].endTime,
+                          'startTime': trips[j].startTime,
+                          'expense': trips[j].expense,
+                          'title': trips[j].title,
+                          'placeModel': {
+                            'placeId': placeModel.placeId,
+                            'placeName': placeModel.placeName,
+                            'latitude': placeModel.latitude,
+                            'longitude': placeModel.longitude,
+                            'shaTypeDescription': placeModel.shaTypeDescription,
+                            'introduction': placeModel.introduction,
+                            'detial': placeModel.detial,
+                            'address': placeModel.address,
+                            'subDistrict': placeModel.subDistrict,
+                            'district': placeModel.district,
+                            'province': placeModel.province,
+                            'postcode': placeModel.postcode,
+                            'phones': placeModel.phones,
+                            'picUrl': placeModel.picUrl,
+                          }
+                        };
+                        listTrips.add(tripsObj);
+                      }
                     }
+                    ;
+
                     dynamic daysObj = {
                       'date': (days[i].date).toString(),
                       'listOfTrips': listTrips
@@ -190,7 +223,9 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                   addTripProvider.resetDisplayListOfTrip();
                   Get.toNamed('/home');
                 },
-                child: const Text('Trip Completed', style: TextStyle( color:Colors.white),
+                child: const Text(
+                  'Trip Completed',
+                  style: TextStyle(color: Colors.white),
                 )),
 
             Container(

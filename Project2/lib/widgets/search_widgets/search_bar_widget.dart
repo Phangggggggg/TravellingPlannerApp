@@ -10,9 +10,6 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
-  // String?countryValue = "";
-  // String?stateValue = "";
-  // String?cityValue = "";
   String address = "";
   GlobalKey<CSCPickerState> _cscPickerKey = GlobalKey();
 
@@ -56,30 +53,31 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
                 ///labels for dropdown
                 countryDropdownLabel: "*Country",
-                stateDropdownLabel: "*Province",
-                cityDropdownLabel: "*City",
+                stateDropdownLabel: "Province",
+                cityDropdownLabel: "City",
 
                 ///Default Country
                 defaultCountry: DefaultCountry.Thailand,
+                
 
                 ///Disable country dropdown (Note: use it with default country)
                 //disableCountry: true,
 
                 ///selected item style [OPTIONAL PARAMETER]
                 selectedItemStyle: TextStyle(
-                  color: Colors.black,
+                  color: kBrown,
                   fontSize: 14,
                 ),
 
                 ///DropdownDialog Heading style [OPTIONAL PARAMETER]
                 dropdownHeadingStyle: TextStyle(
-                    color: Colors.black,
+                    color: kBrown,
                     fontSize: 17,
                     fontWeight: FontWeight.bold),
 
                 ///DropdownDialog Item style [OPTIONAL PARAMETER]
                 dropdownItemStyle: TextStyle(
-                  color: Colors.black,
+                  color: kBrown,
                   fontSize: 14,
                 ),
 
@@ -125,10 +123,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                                     ),
 
                     onPressed: () async {
-                      setState(() {
-                        address =
-                            "${addTripProvider.cityValue}, ${addTripProvider.stateValue},";
-                      });
+    
                       if (addTripProvider.count != 0) {
                         await addTripProvider.fetchLatLong(
                             addTripProvider.stateValue!,
@@ -144,13 +139,6 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                       }
                     },
                     child: Text("Search")),
-              ),
-              SizedBox(
-                height: 15, // <-- match_parent
-              ),
-              Text(address),
-              SizedBox(
-                height: 15, // <-- match_parent
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
+import 'package:travelling_app/colors/colors.dart';
 import 'package:travelling_app/widgets/search_widgets/suggestion_widget.dart';
 import '../../provider/add_trip_provider.dart';
 
@@ -28,38 +29,38 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
           children: [
             TabBar(
                 indicatorSize: TabBarIndicatorSize.values[0],
-                labelColor: Colors.black12,
+                labelColor: kBrown,
                 unselectedLabelColor: Colors.grey,
                 controller: _tabController,
                 isScrollable: true,
                 tabs: [
                   Tab(
-                    icon: Icon(Icons.restaurant, color: Colors.black),
+                    icon: Icon(Icons.restaurant, color: kBrown),
                     child: Text(
                       'Restaurant',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: kBrown,
                         fontSize: 15,
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   Tab(
-                      icon: Icon(Icons.hotel, color: Colors.black),
+                      icon: Icon(Icons.hotel, color: kBrown),
                       child: Text(
                         'Accommodation',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: kBrown,
                           fontSize: 15,
                           // fontWeight: FontWeight.bold,
                         ),
                       )),
                   Tab(
-                    icon: Icon(Icons.attractions, color: Colors.black),
+                    icon: Icon(Icons.attractions, color: kBrown),
                     child: Text(
                       'Attraction',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: kBrown,
                         fontSize: 15,
                         // fontWeight: FontWeight.bold,
                       ),
