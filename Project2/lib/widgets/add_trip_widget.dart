@@ -9,8 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:travelling_app/screens/Plan/plan_screen.dart';
 
 
-
-
 class AddTripWidget extends StatefulWidget {
   const AddTripWidget({Key? key}) : super(key: key);
 

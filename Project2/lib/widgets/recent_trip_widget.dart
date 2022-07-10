@@ -110,12 +110,7 @@ class _RecentTripWidgetState extends State<RecentTripWidget> {
                                           onError: (e) => print(
                                               "Error updating document $e"),
                                         );
-                                    // Provider.of<AddTripProvider>(context)
-                                    //     .setIsRebuild(true);
-
-                                    // setState(() {
-                                    //   widget.lst.removeAt(index);
-                                    // });
+                           
                                     await Navigator.popAndPushNamed(
                                         context, '/home');
                                   },

@@ -183,9 +183,9 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                                     borderSide: BorderSide(
                                         color: Colors.grey, width: 2.0),
                                     borderRadius: BorderRadius.circular(15.0)),
-                                labelText: "Discription",
+                                labelText: "Description",
                                 // errorText: _errText,
-                                hintText: 'Enter the Discription',
+                                hintText: 'Enter the Description',
                                 prefixIcon: Icon(
                                   Icons.description,
                                 ),
@@ -193,7 +193,7 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                               validator: (text) {
                                 // print(text);
                                 if (text == null || text.isEmpty) {
-                                  return 'Enter the Discription';
+                                  return 'Enter the Description';
                                 }
                               },
                             ),
@@ -246,9 +246,11 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
                                       context
                                           .read<AddTripProvider>()
                                           .addTripByDate(
-                                              AddTripProvider().selectedDay,
+                                              context.read<AddTripProvider>().selectedDay,
                                               trip);
-
+                                      print('selectedDate: ${context
+                                          .read<AddTripProvider>()
+                                          .selectedDay}');
                                       Navigator.pop(context);
 
                                       showDialog(
@@ -281,22 +283,6 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
 
   @override
   Widget build(BuildContext context) {
-    
-    print(widget.placeModel.placeId);
-    print(widget.placeModel.address);
-    print(widget.placeModel.introduction);
-    print(widget.placeModel.detial);
-    print(widget.placeModel.district);
-    print(widget.placeModel.latitude);
-    print(widget.placeModel.longitude);
-    print(widget.placeModel.phones);
-    print(widget.placeModel.placeName);
-    print(widget.placeModel.subDistrict);
-    print(widget.placeModel.shaTypeDescription);
-    print(widget.placeModel.province);
-    print(widget.placeModel.picUrl);
-    print(widget.placeModel.postcode); 
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: kWheat,
@@ -563,17 +549,18 @@ class _ShowPlaceDetailState extends State<ShowPlaceDetail>
             )), //expand;
           ],
         ),
-    
-        floatingActionButton: widget.isShow ? FloatingActionButton.extended(
-          onPressed: () {
-            addTripDialog(widget.placeModel.placeName!);
+        floatingActionButton: widget.isShow
+            ? FloatingActionButton.extended(
+                onPressed: () {
+                  addTripDialog(widget.placeModel.placeName!);
 
-            // Add your onPressed code here!
-          },
-          label: const Text('Add to Plan'),
-          icon: const Icon(Icons.add),
-          backgroundColor: kRed,
-        ) : null,
+                  // Add your onPressed code here!
+                },
+                label: const Text('Add to Plan'),
+                icon: const Icon(Icons.add),
+                backgroundColor: kRed,
+              )
+            : null,
       ), //stack
     );
   }

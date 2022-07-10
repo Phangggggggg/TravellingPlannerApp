@@ -320,4 +320,6 @@ class AddTripProvider with ChangeNotifier {
     selectedDay = startDate;
     notifyListeners();
   }
+
+
 }

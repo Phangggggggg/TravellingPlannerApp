@@ -56,7 +56,8 @@ class MyApp extends StatelessWidget {
               GetPage(name: '/register', page: () => Register()),
               GetPage(name: '/login', page: () => Login()),
               GetPage(name: '/plan', page: () => PlanScreen()),
-              GetPage(name: '/profile', page: () => SettingScreen())
+              GetPage(name: '/profile', page: () => SettingScreen()),
+              
               // GetPage(name:  '/ShowPlaceDetail', page: () =>  ShowPlaceDetail()),
             ]));
   }

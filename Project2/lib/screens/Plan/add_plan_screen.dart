@@ -145,6 +145,8 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
 
                 addTripProvider.setSelectDate(date);
                 addTripProvider.getListByDate(date);
+                print(
+                    'Show plan SelectedDate:  ${addTripProvider.selectedDay}');
               },
             ),
 
@@ -163,7 +165,6 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                     var trips = addTripProvider.listOfDays[i].trips!;
                     for (var j = 0; j < trips.length; j++) {
                       if (trips[j].placeModel == null) {
-                       
                         dynamic tripsObj = {
                           'category': trips[j].category,
                           'description': trips[j].description,
@@ -174,7 +175,6 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
                         };
                         listTrips.add(tripsObj);
                       } else {
-                 
                         PlaceModel placeModel = trips[j].placeModel!;
                         dynamic tripsObj = {
                           'category': trips[j].category,

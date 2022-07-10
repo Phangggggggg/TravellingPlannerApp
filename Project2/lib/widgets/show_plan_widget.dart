@@ -14,10 +14,6 @@ class ShowPlanWidget extends StatelessWidget {
 
   ShowPlanWidget({required this.lst});
 
-  String out() {
-    return 'hello';
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

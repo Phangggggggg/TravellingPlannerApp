@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
               List<Trips> listTrips = [];
 
               for (var i = 0; i < listOfTrips.length; i++) {
-                if (listOfTrips[j]['placeModel'] == null) {
+                if (listOfTrips[i]['placeModel'] == null) {
                   Trips trip = new Trips(
                       title: listOfTrips[i]['title'],
                       description: listOfTrips[i]['description'],
