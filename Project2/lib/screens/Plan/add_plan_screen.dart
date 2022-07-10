@@ -145,8 +145,7 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
 
                 addTripProvider.setSelectDate(date);
                 addTripProvider.getListByDate(date);
-                print(
-                    'Show plan SelectedDate:  ${addTripProvider.selectedDay}');
+              
               },
             ),
 
@@ -231,7 +230,7 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
             Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height - 303,
-                child: ShowPlanWidget(lst: addTripProvider.displayListOfTrip)),
+                child: ShowPlanWidget(lst: addTripProvider.displayListOfTrip, isShowSlider: true,)),
           ],
         ),
       );

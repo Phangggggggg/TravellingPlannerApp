@@ -8,9 +8,8 @@ import '../../../widgets/show_plan_widget.dart';
 import 'package:provider/provider.dart';
 import '/colors/colors.dart';
 import 'package:get/get.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/screens/Expense/expense.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class RecentTripDetial extends StatefulWidget {
   String mainTitle;
   DateTime startDate;
@@ -78,7 +77,7 @@ class _RecentTripDetialState extends State<RecentTripDetial> {
             ));
           },
           label: const Text('Expense Detail'),
-          icon: FaIcon(FontAwesomeIcons.fileInvoiceDollar),
+          icon:FaIcon(FontAwesomeIcons.fileInvoiceDollar),
           backgroundColor: kRed,
         ),
         body: StaggeredGrid.count(
@@ -120,7 +119,7 @@ class _RecentTripDetialState extends State<RecentTripDetial> {
                       Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
-                          child: ShowPlanWidget(lst: widget.displayTrips))
+                          child: ShowPlanWidget(lst: widget.displayTrips, isShowSlider: false,))
                     ],
                   ))
             ]),

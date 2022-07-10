@@ -11,8 +11,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ShowPlanWidget extends StatelessWidget {
   List<Trips> lst;
+  final bool isShowSlider;
 
-  ShowPlanWidget({required this.lst});
+  ShowPlanWidget({required this.lst, required this.isShowSlider});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class ShowPlanWidget extends StatelessWidget {
         itemCount: lst.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               // height: 240,
@@ -97,7 +98,7 @@ class ShowPlanWidget extends StatelessWidget {
                     ),
                   ),
                   key: const ValueKey(0),
-                  startActionPane: ActionPane(
+                  startActionPane:  ActionPane(
                       // A motion is a widget used to control how the pane animates.
                       motion: const ScrollMotion(),
 
@@ -107,6 +108,7 @@ class ShowPlanWidget extends StatelessWidget {
                       // All actions are defined in the children parameter.
                       children: [
                         // A SlidableAction can have an icon and/or a label.
+                          if (isShowSlider) ...[
 
                         SlidableAction(
                           onPressed: (value) {
@@ -119,19 +121,20 @@ class ShowPlanWidget extends StatelessWidget {
                           icon: Icons.delete,
                           label: 'Delete',
                         ),
+                                    ],
                         if (lst[index].placeModel != null) ...[
                           // ignore: avoid_print
                           SlidableAction(
                             onPressed: (value) {
-                              
                               PlaceModel pm = lst[index].placeModel!;
 
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) =>  ShowPlaceDetail(
-                                  isShow: false,
-                                  placeModel: pm,
-                                )),
+                                MaterialPageRoute(
+                                    builder: (context) => ShowPlaceDetail(
+                                          isShow: false,
+                                          placeModel: pm,
+                                        )),
                               );
                             },
                             backgroundColor: Colors.green,
