@@ -9,4 +9,6 @@ const Color kPlumpPurple = Color(0xFF633EBB);
 const Color kRichLilac = Color(0xFFBE61CA);
 const Color kRajah = Color(0xFFF2BC5E);
 const Color kDesire = Color(0xFFF13C59);
+
+const Color kPink = Color(0xFFD76B73);
 // const Color 

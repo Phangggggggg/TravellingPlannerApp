@@ -29,13 +29,7 @@ class CovidCardWidget extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                    Color.fromARGB(255, 244, 125, 165),
-                    Color.fromARGB(255, 233, 181, 199),
-                  ],
-              ),
-              // color: Color.fromARGB(255, 240, 197, 211),
+              color: Color.fromARGB(255, 240, 197, 211),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             ),

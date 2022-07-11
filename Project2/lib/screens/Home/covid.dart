@@ -58,11 +58,12 @@ class _CovidScreenState extends State<CovidScreen> {
               height: 130,
               width: double.infinity,
               decoration: BoxDecoration(
-                // color: k,
+                // color: kPink,
                 gradient: LinearGradient(
                   colors: [
-                    kPlumpPurple,
-                    kRed
+                     Color.fromARGB(255, 248, 170, 196),
+                    kPink,
+                   
                   ],
                 ),
                 borderRadius: BorderRadius.circular(20),
