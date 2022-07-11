@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
-// import 'package:travelling_app/api/get_covid.dart';
-// import 'package:travelling_app/api/get_restaurant.dart';
-// import 'package:travelling_app/api/get_attraction.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:travelling_app/utils/user_shared_preferences.dart';
+import 'package:travelling_app/colors/colors.dart';
+import 'package:travelling_app/widgets/logo_widget.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -51,10 +50,10 @@ class _LoginState extends State<Login> {
         text: TextSpan(children: [
           TextSpan(
               text: 'Don\'t have an account?  ',
-              style: TextStyle(color: Colors.black)),
+              style: TextStyle(color: kBrown, fontFamily: 'Aeonik')),
           TextSpan(
               text: 'Sign Up',
-              style: TextStyle(color: Colors.blue),
+              style: TextStyle(color: kRed, fontFamily: 'Aeonik'),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   Get.toNamed('/register');
@@ -90,16 +89,25 @@ class _LoginState extends State<Login> {
   Widget _buildLoginText() {
     return Column(
       children: [
+
+      SizedBox(
+        height: 50,
+      ),
         Text(
           "Welcome!",
-          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: kBrown),
         ),
         SizedBox(
           height: 10,
         ),
-        Text("To continue using this app,"),
-        Text("please sign in first.")
+        Text("To continue using this app,", style: TextStyle(color: kBrown,fontSize: 14,),),
+        Text("please sign in first.", style: TextStyle(color: kBrown,fontSize: 14)),
+         SizedBox(
+          height: 10,
+        ),
+        LogoWidget(height: 180, width: 180),
       ],
+      
     );
   }
 
@@ -109,7 +117,7 @@ class _LoginState extends State<Login> {
         body: SingleChildScrollView(
       child: Center(
           child: Column(children: [
-        Container(margin: const EdgeInsets.all(20), child: _buildLoginText()),
+        _buildLoginText(),
         Container(
           height: MediaQuery.of(context).size.height,
           child: Form(
@@ -131,15 +139,14 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(15.0)),
                     labelText: "Username",
                     // errorText: _errText,
-                    hintText: 'Enter your Username',
+                    hintText: 'Enter your Email',
                     prefixIcon: Icon(
                       Icons.person_outline,
                     ),
                   ),
                   validator: (text) {
-                    print(text);
                     if (text == null || text.isEmpty) {
-                      return 'Enter Your Username';
+                      return 'Enter Your Email';
                     }
                   },
                 ),
@@ -176,67 +183,13 @@ class _LoginState extends State<Login> {
                 child: MaterialButton(
                   minWidth: 300.0,
                   height: 50.0,
-                  color: Colors.blue,
+                  color: kRed,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   ),
                   onPressed: () async{
-                    // if (_formKey.currentState!.validate()) {
-                    //   // validate
-                    //   var uname = usernameController.text;
-                    //   var pwd = passwordController.text;
-                    //   setState(() {
-                    //     _userName = uname;
-                    //     _passWord = pwd;
-                    //     _message = "username : $uname\nPassword : $pwd";
-                    //   });
-                    // GetPlace g = GetPlace();
-                    // g.getAPlace('อาหาร', '13.6904831,100.5226014');
-                    // GetResturant resturant = GetResturant();
-                    // resturant.getAResDetail('P08000001');
-
-                    // GetAtrraction atrrac = GetAtrraction();
-
-                    // atrrac.getAtrract('P03000001');
-                    // GetCovid covid = GetCovid();
-                    // covid.getCovidDialy();
                     await signIn();
                     Get.toNamed('/home');
-
-                    // user
-                    //     .authUser(_userName, _passWord)
-                    //     .then((value) {
-                    //   if (value) {
-
-                    //     print(UserSharedPreference.getUser()
-                    //         .toString());
-                    //     Get.toNamed('/home');
-                    //   } else {
-                    //     setState(() {
-                    //       _autoValidate = true;
-                    //       resetTextField();
-                    //     });
-                    //     print("fail authentication");
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (context) => AlertDialog(
-                    //         title: Text("Fail Authentication"),
-                    //         content: Text(
-                    //             'Fail! Please Register your account first before Login'),
-                    //         actions: [
-                    //           TextButton(
-                    //               onPressed: () =>
-                    //                   Navigator.pop(context),
-                    //               child: Text('OK'))
-                    //         ],
-                    //       ),
-                    //     );
-                    //   }
-                    // });
-                    // }
-                    // setState(() {
-                    //   _autoValidate = true;
-                    // });
                   },
                   child: Text(
                     'Login',

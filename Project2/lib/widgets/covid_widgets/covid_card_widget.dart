@@ -17,16 +17,25 @@ class CovidCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       width: 170,
       height: 80,
+      
       decoration: BoxDecoration(
           color: kRed, borderRadius: BorderRadius.all(Radius.circular(15))),
+          
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 240, 197, 211),
+              gradient: LinearGradient(
+                colors: [
+                    Color.fromARGB(255, 244, 125, 165),
+                    Color.fromARGB(255, 233, 181, 199),
+                  ],
+              ),
+              // color: Color.fromARGB(255, 240, 197, 211),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             ),
@@ -43,7 +52,7 @@ class CovidCardWidget extends StatelessWidget {
                     child: Text(
                       title,
                       style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: kBrown,)
                     ),
                   ),
                 ))

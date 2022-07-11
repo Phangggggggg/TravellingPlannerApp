@@ -91,7 +91,7 @@ class _SettingScreenState extends State<SettingScreen>  with SingleTickerProvide
                     controller: _tabController,
                     tabs: [
                       Tab(
-                        text: 'Edit profile',
+                        text: 'Profile',
                       ),
                       Tab(
                         // text: 'Log out',

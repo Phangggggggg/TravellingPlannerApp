@@ -3,6 +3,7 @@ import 'package:travelling_app/colors/colors.dart';
 import '../../models/days.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'dart:math';
 
 class Expense extends StatefulWidget {
   final List<double> totalExpenseByDay;
@@ -21,18 +22,47 @@ class Expense extends StatefulWidget {
 class _ExpenseState extends State<Expense> {
   int touchedIndex = -1;
 
+  int getHighestExpense(List<double> expenses) {
+    double maxx = expenses.reduce(max);
+    expenses.indexOf(maxx);
+    return expenses.indexOf(maxx);
+  }
+
+  int getLowestExpense(List<double> expenses) {
+    double minn = expenses.reduce(min);
+    expenses.indexOf(minn);
+    return expenses.indexOf(minn);
+  }
+
   final format = DateFormat('yyyy-MM-dd');
 
-  String formatDate(DateTime date) {
+  String formatDateMonth(DateTime date) {
     String now;
     try {
-      now = DateFormat.MMMd().format(date);
+      now = DateFormat.MMM().format(date);
     } catch (e) {
       now = "";
     }
 
     return now;
   }
+
+  String formatDateDay(DateTime date) {
+    String now;
+    try {
+      now = DateFormat.d().format(date);
+    } catch (e) {
+      now = "";
+    }
+
+    return now;
+  }
+
+// T getRandomElement<T>(List<T> list) {
+//     final random = new Random();
+//     var i = random.nextInt(list.length);
+//     return list[i];
+// }
 
   List<PieChartSectionData> getSections() {
     List<PieChartSectionData> lst = [];
@@ -41,18 +71,24 @@ class _ExpenseState extends State<Expense> {
       double weight = widget.totalExpenseByDay[i] != 0
           ? (widget.totalExpenseByDay[i] / totalExpense) * 360
           : 10;
-      double percent =   (widget.totalExpenseByDay[i] / totalExpense) * 100;
+      double percent = (widget.totalExpenseByDay[i] / totalExpense) * 100;
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 7.0 : 50.0;
-      final color = (i + 1) % 2 == 0 ? Colors.red :  kBrown ;
+      final fontSize = isTouched ? 20.0 : 15.0;
+      final radius = isTouched ? 65.0 : 50.0;
+      // final List<Color> lstColor = [kBrown,kDesire,kPlumpPurple,kRajah];
+      // final color = getRandomElement(lstColor);
+
+      final color = (i + 1) % 2 == 0 ? kRajah : kRed;
       PieChartSectionData pieChartData = PieChartSectionData(
         value: weight,
         title: 'Day ${i + 1}\n ${percent.ceil()}%',
         color: color,
         radius: radius,
-        titleStyle: TextStyle(
-            fontSize: fontSize, fontWeight: FontWeight.bold, color: kWheat),
+        borderSide: BorderSide(
+          color: kWheat,
+          width: 1.0,
+        ),
+        titleStyle: TextStyle(fontSize: fontSize, color: kWheat),
       );
       lst.add(pieChartData);
     }
@@ -72,23 +108,40 @@ class _ExpenseState extends State<Expense> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                   children: [
-                     IconButton(
-                           onPressed: () {
-                             Navigator.pop(context);
-                           },
-                           icon: Icon(Icons.arrow_back),
-                           iconSize: 30.0,
-                     ),
-                   ],
-                 ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back),
+                    iconSize: 30.0,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(widget.title,
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: kBrown)),
+          
+                  // Text('Total: ${calTotalExpense(totalExpenseByDay)}'),
+                ],
+              ),
               SizedBox(
-                width: 300,
-                height: 300,
+                width: 20,
+                height: 20,
+              ),
+              SizedBox(
+                width: 400,
+                height: 200,
                 child: PieChart(
                   PieChartData(
+                      centerSpaceRadius: 45.0,
                       sectionsSpace: 0,
                       pieTouchData: PieTouchData(touchCallback:
                           (FlTouchEvent event, pieTouchResponse) {
@@ -101,112 +154,185 @@ class _ExpenseState extends State<Expense> {
                           }
                           touchedIndex = pieTouchResponse
                               .touchedSection!.touchedSectionIndex;
-                      
                         });
                       }),
                       borderData: FlBorderData(
                         show: false,
                       ),
-                      centerSpaceRadius: double.infinity,
+                      // centerSpaceRadius: double.infinity,
                       sections: getSections()),
                   swapAnimationDuration:
                       Duration(milliseconds: 150), // Optional
                   swapAnimationCurve: Curves.linear, // Optional
                 ),
               ),
-           
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(widget.title,
-                      style: TextStyle(
-                        fontSize: 15,
-                      )),
-                  // Text('Total: ${calTotalExpense(totalExpenseByDay)}'),
-                  Flexible(
-                      child: RichText(
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(
-                      text: 'Total: ',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: kBrown,
-                          fontSize: 15),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text:
-                                '${calTotalExpense(widget.totalExpenseByDay)} Baht',
-                            style: TextStyle(
-                              color: kBrown,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 15,
-                            )),
-                      ],
-                    ),
-                  ))
-                ],
+              SizedBox(height: 20),
+              RichText(
+                overflow: TextOverflow.ellipsis,
+                text: TextSpan(
+              text: 'Total: ',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: kBrown, fontSize: 16),
+              children: <TextSpan>[
+                TextSpan(
+                    text:
+                        '${calTotalExpense(widget.totalExpenseByDay)} Baht',
+                    style: TextStyle(
+                      color: kBrown,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                    )),
+              ],
+                ),
               ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: ListView.builder(
-                      itemCount: widget.totalExpenseByDay.length,
-                      itemBuilder: ((context, index) {
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          margin: new EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 6.0),
-                          child: Container(
-                            decoration: BoxDecoration(color: kRed),
-                            child: ListTile(
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                leading: Container(
-                                  padding: EdgeInsets.only(right: 12.0),
-                                  decoration: new BoxDecoration(
-                                      border: new Border(
-                                          right: new BorderSide(
-                                              width: 1.0,
-                                              color: Colors.white24))),
-                                  child: Column(
+              SizedBox(
+                height: 20,
+                width: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                      height: 50,
+                      width: 130,
+                      decoration: BoxDecoration(
+                          color: kRed,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          )),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                        Text(
+                          'Maximum spend: ',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: kBrown)
+                        ),
+                        Text(
+                          widget.totalExpenseByDay[
+                                  getHighestExpense(widget.totalExpenseByDay)]
+                              .toString() ,
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: kBrown)
+                        ),
+                        ],
+                      )
+                  ),
+                  Container(
+                      height: 50,
+                      width: 130,
+                      decoration: BoxDecoration(
+                          color: kRed,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          )),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                        Text(
+                          'Minimux spend: ',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: kBrown)
+                        ),
+                        Text(
+                          widget.totalExpenseByDay[
+                                  getLowestExpense(widget.totalExpenseByDay)]
+                              .toString() ,
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: kBrown)
+                        ),
+                        ],
+                      )
+                  )
+                ],    
+              ),
+              SizedBox(
+                height: 10,
+                width: 110,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 444,
+                child: ListView.builder(
+                    itemCount: widget.totalExpenseByDay.length,
+                    itemBuilder: ((context, index) {
+                      return Card(
+                        elevation: 0,
+                        color: kWheat,
+                        margin: new EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 6.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: kRed,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
+                              )),
+                          child: ListTile(
+                            // contentPadding: EdgeInsets.symmetric(
+                            //     horizontal: 20.0, vertical: 10.0),
+                            leading: Container(
+                              padding: EdgeInsets.only(right: 12.0),
+                              decoration: new BoxDecoration(
+                                  border: new Border(
+                                      right: new BorderSide(
+                                          width: 1.0,
+                                          color: Colors.white24))),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                          formatDate(widget.startDate
+                                          formatDateDay(widget.startDate
                                               .add(Duration(days: index))),
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 25)),
+                                      Text(
+                                          formatDateMonth(widget.startDate
+                                              .add(Duration(days: index))),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16)),
                                     ],
                                   ),
-                                ),
-                                title: Text(
-                                  "Day ${index + 1}",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                                subtitle: Row(
-                                  children: <Widget>[
-                                    Icon(Icons.linear_scale,
-                                        color: Colors.yellowAccent),
-                                    Text(
-                                        " ${widget.totalExpenseByDay[index]} Baht",
-                                        style: TextStyle(color: Colors.white))
-                                  ],
-                                ),
-                                trailing: Icon(Icons.keyboard_arrow_right,
-                                    color: Colors.white, size: 30.0)),
+                                ],
+                              ),
+                            ),
+                            title: Text(
+                              "Day ${index + 1}",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            ),
+                            // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+          
+                            subtitle: Row(
+                              children: <Widget>[
+                                Icon(Icons.linear_scale,
+                                    color: Colors.yellowAccent),
+                                Text(
+                                    " ${widget.totalExpenseByDay[index]} Baht",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15.5))
+                              ],
+                            ),
                           ),
-                        );
-                      })),
-                ),
+                        ),
+                      );
+                    })),
               ),
             ],
           )),

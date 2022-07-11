@@ -58,13 +58,13 @@ class _CovidScreenState extends State<CovidScreen> {
               height: 130,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: kRed,
-                // gradient: LinearGradient(
-                //   colors: [
-                //     Color(0xFF60BE93),
-                //     Color(0xFF1B8D59),
-                //   ],
-                // ),
+                // color: k,
+                gradient: LinearGradient(
+                  colors: [
+                    kPlumpPurple,
+                    kRed
+                  ],
+                ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -124,8 +124,7 @@ class _CovidScreenState extends State<CovidScreen> {
 
                     Text("Thailand Covid Health information",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w800)),
-                  
+                            fontSize: 18, fontWeight: FontWeight.w800, color: kBrown)),
                   ],
                 ),
                 SizedBox(
@@ -205,7 +204,7 @@ class _CovidScreenState extends State<CovidScreen> {
                           children: [
                             Text('Preventions',
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w800)),
+                                    fontSize: 18, fontWeight: FontWeight.w800,  color: kBrown)),
                           ],
                         ),
                       ),

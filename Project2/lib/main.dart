@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // print(UserSharedPreference.getUser());
     return MultiProvider(
         providers: [
           ChangeNotifierProvider.value(
@@ -43,10 +44,7 @@ class MyApp extends StatelessWidget {
         ],
         child: GetMaterialApp(
             title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.red,
-              fontFamily: 'Aeonik'
-            ),
+            theme: ThemeData(primarySwatch: Colors.red, fontFamily: 'Aeonik',),
             initialRoute:
                 UserSharedPreference.getUser().isNotEmpty ? '/home' : '/',
             getPages: [
@@ -57,7 +55,7 @@ class MyApp extends StatelessWidget {
               GetPage(name: '/login', page: () => Login()),
               GetPage(name: '/plan', page: () => PlanScreen()),
               GetPage(name: '/profile', page: () => SettingScreen()),
-              
+
               // GetPage(name:  '/ShowPlaceDetail', page: () =>  ShowPlaceDetail()),
             ]));
   }
