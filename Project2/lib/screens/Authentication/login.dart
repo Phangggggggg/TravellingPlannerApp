@@ -137,7 +137,7 @@ class _LoginState extends State<Login> {
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white, width: 2.0),
                         borderRadius: BorderRadius.circular(15.0)),
-                    labelText: "Username",
+                    labelText: "Email",
                     // errorText: _errText,
                     hintText: 'Enter your Email',
                     prefixIcon: Icon(

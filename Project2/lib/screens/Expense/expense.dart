@@ -256,7 +256,7 @@ class _ExpenseState extends State<Expense> {
                 width: 110,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height - 444,
+                height: MediaQuery.of(context).size.height - 400,
                 child: ListView.builder(
                     itemCount: widget.totalExpenseByDay.length,
                     itemBuilder: ((context, index) {
