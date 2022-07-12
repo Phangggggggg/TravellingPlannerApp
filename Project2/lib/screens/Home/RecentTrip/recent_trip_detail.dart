@@ -78,7 +78,7 @@ class _RecentTripDetialState extends State<RecentTripDetial> {
           },
           label: const Text('Expense Detail'),
           icon:FaIcon(FontAwesomeIcons.fileInvoiceDollar),
-          backgroundColor: kRed,
+          backgroundColor: kDesire,
         ),
         body: StaggeredGrid.count(
             crossAxisCount: 1,
@@ -89,28 +89,29 @@ class _RecentTripDetialState extends State<RecentTripDetial> {
                   crossAxisCellCount: 1,
                   mainAxisCellCount: 20,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                       IconButton(
+                              icon: Icon(Icons.arrow_back, size: 30),
+                              onPressed: () {
+                                Get.toNamed('/home');
+                              },
+                            ),
+                        Text("${widget.mainTitle}", style: TextStyle(
+                          fontSize: 30, 
+                          color: kBrown,
+                          fontWeight: FontWeight.bold
+                        ),
+                        ),
+                        SizedBox(
+                          width: 40,
+                        )
                        
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 10, 40, 0.0),
-                          child: IconButton(
-                            icon: Icon(Icons.arrow_back, size: 30),
-                            onPressed: () {
-                              Get.toNamed('/home');
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(70, 10, 0, 0),
-                          child: Text("${widget.mainTitle}", style: TextStyle(
-                            fontSize: 30, 
-                            color: kBrown,
-                            fontWeight: FontWeight.bold
-                          ),
-                          ),
-                        ),
                       ]),
+                      
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 5.0, 0.0, 0.0),
                         child: DatePicker(

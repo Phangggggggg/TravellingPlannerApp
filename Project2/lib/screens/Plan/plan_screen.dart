@@ -75,21 +75,21 @@ class _PlanScreenState extends State<PlanScreen> {
         builder: (context, addTripProvider,child) {
           return Scaffold(
               appBar: _selectedIndex == 0 ?  AppBar(
-                backgroundColor: kRed,
+                backgroundColor: kDesire,
                 title:  Row(
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Text('Today\'s ${formatDate(DateTime.now())}',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                       ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                       child: MaterialButton(
-                          minWidth: 10.0,
+                          minWidth: 7.0,
                           height: 30.0,
                           color: kWheat,
                           shape: const RoundedRectangleBorder(
@@ -166,7 +166,7 @@ class _PlanScreenState extends State<PlanScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: FaIcon(FontAwesomeIcons.clipboardCheck, color: Colors.green),
+                                child: FaIcon(FontAwesomeIcons.clipboardCheck, color: kBrown, size: 18,),
                               ),
                               const Text(
                                 'Completed',
@@ -208,7 +208,7 @@ class _PlanScreenState extends State<PlanScreen> {
               },
               label: const Text('+ Add Trip') ,
               // icon:FaIcon(FontAwesomeIcons.fileInvoiceDollar),
-              backgroundColor: kRed, 
+              backgroundColor: kRajah, 
             ) : null);
         }
       ),

@@ -206,7 +206,7 @@ class _AddPlanScreenState extends State<AddPlanScreen> {
               child: DatePicker(
                 addTripProvider.startDate,
                 initialSelectedDate: addTripProvider.selectedDay,
-                selectionColor: kRed,
+                selectionColor: kDesire,
                 selectedTextColor: Colors.white,
                 daysCount: addTripProvider.durationDate + 1,
                 onDateChange: (date) {
