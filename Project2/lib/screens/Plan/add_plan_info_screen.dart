@@ -53,7 +53,7 @@ class _AddPlanInfoScreenState extends State<AddPlanInfoScreen> {
                 padding: const EdgeInsets.fromLTRB(85, 20, 0.0, 0.0),
                 child: Text('Add Your Trip Detail',
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: kBrown)),
               ),
               StaggeredGridTile.count(
                 crossAxisCellCount: 1,

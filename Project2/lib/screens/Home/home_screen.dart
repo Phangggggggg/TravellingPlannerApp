@@ -11,6 +11,8 @@ import '/models/days.dart';
 import '/models/trips.dart';
 import '/models/main_trip_model.dart';
 import 'package:get/get.dart';
+import 'package:travelling_app/colors/colors.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,10 +27,28 @@ class _HomeScreenState extends State<HomeScreen> {
   List<MainTripModel> recentTrip = [];
   var _isInit = true;
   var _isLoading = false;
+  int _numTrips = 0;
+
+  final format = DateFormat('yyyy-MM-dd');
+
+  String formatDate(DateTime date) {
+    String now;
+    try {
+      now = DateFormat.yMMMd().format(date);
+    } catch (e) {
+      now = "";
+    }
+
+    return now;
+  }
 
   Future iniFirebase() async {
     await Firebase.initializeApp();
     _firestore = FirebaseFirestore.instance;
+  }
+
+  int getNumTrips(List<MainTripModel> lst) {
+    return lst.isEmpty ? 0 : lst.length;
   }
 
   @override
@@ -80,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       endTime: listOfTrips[i]['endTime'],
                       category: listOfTrips[i]['category'],
                       expense: listOfTrips[i]['expense']);
-                      listTrips.add(trip);
+                  listTrips.add(trip);
                 } else {
                   var pm = listOfTrips[i]['placeModel'];
                   Trips trip = new Trips(
@@ -113,6 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
               recentTrip.add(mainTripModel);
             });
           }
+          setState(() {
+            _numTrips = getNumTrips(recentTrip);
+          });
         }
       });
       return true;
@@ -123,6 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var squareWidth = MediaQuery.of(context).size.width / 2 - 20; 
+
     return _isLoading
         ? Center(
             child: CircularProgressIndicator(color: Colors.amberAccent),
@@ -134,62 +159,92 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'My Trips',
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: kBrown,
+                            fontFamily: 'Aeonik'),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          Get.toNamed('/profile');
-                        },
-                        icon: Icon(Icons.person),
-                      ),
+    
                     ],
                   ),
-                  // TextButton(
-                  //     onPressed: () {
-                  //       getInfo();
-                  //     },
-                  //     child: const Text('Submit')),
-                  SizedBox(
-                    height: 20,
+                   SizedBox(
+                    height: 5,
                   ),
-                  Text(
-                    "Ongoing Trip",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 20),
-                  ),
+                  Container(height: 5, width: MediaQuery.of(context).size.width/5 + 5, 
+                                  color: kDesire),
+                  Container(height: 5, width: MediaQuery.of(context).size.width/5 + 15, 
+                                  color: kRajah),
+                                  
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AddTripWidget(),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: OnGoingTripWidget(
-                      //       placeName: 'def', dateOfGoing: '12/3/4'),
-                      // )
+                      Text(
+                        "Add your Trip",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: kBrown,
+                            fontFamily: 'Aeonik'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(80, 10, 0, 0),
+                        child: Text('Today\'s ${formatDate(DateTime.now())}'),
+                      ),
                     ],
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AddTripWidget(),
+                      InkWell(
+                        onTap: () {
+                        },
+                        child: Container(
+                        
+                          width: squareWidth,
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage("lib/assets/logos/thai.png"),
+                                  fit: BoxFit.cover),
+                          ),
+                          height: squareWidth,
+                            child: Center(
+                              child: 
+                              Text('Number of \n     Trips\n        ${_numTrips}'),
+                              // child: Icon(
+                              //   Icons.add,
+                              //   size: 30,
+                              //   color: Colors.grey,
+                              // ),
+                            ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 18,
                   ),
                   Text(
                     'Recent Trips',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: kBrown,
+                        fontFamily: 'Aeonik',
                         fontSize: 20),
                   ),
                   // Text('length ${recentTrip.length.toString()}')
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   RecentTripWidget(lst: recentTrip),
                 ],

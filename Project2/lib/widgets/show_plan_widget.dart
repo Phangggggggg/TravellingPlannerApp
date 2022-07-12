@@ -22,13 +22,14 @@ class ShowPlanWidget extends StatelessWidget {
         itemCount: lst.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 5, 15, 0),
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               // height: 240,
               child: Card(
+                color: index % 2 == 0 ? kDesire : kRajah,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(25),
                 ),
                 child: Slidable(
                   child: Padding(
@@ -41,13 +42,13 @@ class ShowPlanWidget extends StatelessWidget {
                               padding: const EdgeInsets.fromLTRB(20, 5, 5, 15),
                               child: Text(
                                 lst[index].title,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(fontWeight: FontWeight.bold, color: index % 2 == 0 ? kWheat : kBrown),
                               ),
                             ),
                           ],
                         ),
                         Row(children: [
-                          Icon(Icons.place, color: kBrown),
+                          Icon(Icons.place, color: index % 2 == 0 ? kWheat : kBrown),
                           Flexible(
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(15, 5, 5, 15),
@@ -56,6 +57,7 @@ class ShowPlanWidget extends StatelessWidget {
                                   lst[index].category.toString(),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 3,
+                                  style: TextStyle(color: index % 2 == 0 ? kWheat : kBrown),
                                 ),
                               ),
                             ),
@@ -63,7 +65,7 @@ class ShowPlanWidget extends StatelessWidget {
                         ]),
                         Row(
                           children: [
-                            Icon(Icons.time_to_leave, color: kBrown),
+                            FaIcon(FontAwesomeIcons.clock, color: index % 2 == 0 ? kWheat : kBrown),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(15, 5, 5, 15),
                               child: Text(DateFormat.jm().format(
@@ -71,27 +73,28 @@ class ShowPlanWidget extends StatelessWidget {
                                           lst[index].startTime.toString())) +
                                   ' - ' +
                                   DateFormat.jm().format(DateFormat("hh:mm:ss")
-                                      .parse(lst[index].endTime.toString()))),
+                                      .parse(lst[index].endTime.toString())), style: TextStyle(color: index % 2 == 0 ? kWheat : kBrown)),
                             ),
                           ],
                         ),
                         Row(children: [
-                          Icon(Icons.description, color: kBrown),
+                          Icon(Icons.description, color: index % 2 == 0 ? kWheat : kBrown),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(15, 0, 5, 15),
                             child: Text(
                               lst[index].description.toString(),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: index % 2 == 0 ? kWheat : kBrown)
                             ),
                           ),
                         ]),
                         Row(children: [
-                          Icon(Icons.money, color: kBrown),
+                          Icon(Icons.money, color: index % 2 == 0 ? kWheat : kBrown),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(15, 5, 5, 15),
                             child:
-                                Text(lst[index].expense.toString() + ' Baht'),
+                                Text(lst[index].expense.toString() + ' Baht', style: TextStyle(color: index % 2 == 0 ? kWheat : kBrown)),
                           ),
                         ]),
                       ],

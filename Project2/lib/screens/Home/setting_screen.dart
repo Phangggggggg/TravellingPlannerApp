@@ -57,17 +57,33 @@ class _SettingScreenState extends State<SettingScreen>  with SingleTickerProvide
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 30, 50, 0.0),
-              child: IconButton(
-                icon: Icon(
-                  Icons.account_circle_rounded,
-                  size: 80,
-                  color: Colors.grey[800],
-                ),
-                onPressed: () {},
-              ),
+            SizedBox(
+              height: 30,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back),
+                        iconSize: 30.0,
+                      ),
+                      Padding(
+                        padding:  EdgeInsets.fromLTRB(85,0,0,0),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.account_circle_rounded,
+                            size: 80,
+                            color: Colors.grey[800],
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
+              ],
+            ),
+            
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 50, 9, 0.0),
               child: Text(

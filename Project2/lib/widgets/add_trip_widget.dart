@@ -30,7 +30,6 @@ class _AddTripWidgetState extends State<AddTripWidget> {
     }
   }
 
-
   Future<void> addTripDialog() async {
     await showDialog<void>(
         context: context,
@@ -38,7 +37,7 @@ class _AddTripWidgetState extends State<AddTripWidget> {
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (BuildContext context, setState) {
             return AlertDialog(
-              title: Text('Please filled in Your Trip info'),
+              title: Text('Please filled in Your Trip info', style: TextStyle(color: kBrown)  ),
               content: SingleChildScrollView(
                   child: Container(
                       height: 300,
@@ -150,7 +149,7 @@ class _AddTripWidgetState extends State<AddTripWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var squareWidth = MediaQuery.of(context).size.width / 2 - 40;
+    var squareWidth = MediaQuery.of(context).size.width / 2 - 20;
     // final providerCall = Provider.of<AddTripProvider>(context, listen: false);
 
     return InkWell(
@@ -162,14 +161,14 @@ class _AddTripWidgetState extends State<AddTripWidget> {
         height: squareWidth,
         child: DottedBorder(
           radius: Radius.circular(3.0),
-          dashPattern: [10,6],
-          color: kRed,
+          dashPattern: [5,6],
+          color: Colors.grey,
           strokeWidth: 1,
           child: Center(
             child: Icon(
               Icons.add,
-              size: 20,
-              color: kRed,
+              size: 30,
+              color: Colors.grey,
             ),
           ),
         ),

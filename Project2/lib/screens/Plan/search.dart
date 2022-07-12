@@ -52,15 +52,13 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: _isLoading
-          ? Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              
-             CircularProgressIndicator(
-                  color: kRed,
-             )
-            ],
+          ? Padding(
+            padding: const EdgeInsets.fromLTRB(0, 300, 0, 0),
+            child: Center(
+              child: CircularProgressIndicator(
+                   color: kRed,
+              ),
+            ),
           )
           : StaggeredGrid.count(
               crossAxisCount: 2,
